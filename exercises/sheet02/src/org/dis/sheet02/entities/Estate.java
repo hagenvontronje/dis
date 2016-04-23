@@ -2,29 +2,31 @@ package org.dis.sheet02.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
-public class Estate {
+public abstract class Estate {
 
 	@Id
 	@Column(name = "ID")
 	private int id = -1;
 
-	@Column(name = "CITY")
+	@Column(name = "CITY", nullable=false)
 	private String city;
 
-	@Column(name = "POSTAL_CODE")
+	@Column(name = "POSTAL_CODE", nullable=false)
 	private String postalCode;
 
-	@Column(name = "STREET")
+	@Column(name = "STREET", nullable=false)
 	private String street;
 
-	@Column(name = "STREET_NUMBER")
+	@Column(name = "STREET_NUMBER", nullable=false)
 	private String streetNumber;
 
-	@Column(name = "SQUARE_AREA")
+	@Column(name = "SQUARE_AREA", nullable=false, scale=10, precision=2)
 	private double squareArea;
 
 	@Column(name = "ESTATE_AGENT_ID")
+	@ManyToOne(targetEntity=EstateAgent.class, optional=false)
 	private int managerId;
 
 	public int getId() {

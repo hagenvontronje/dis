@@ -91,7 +91,7 @@ public class EntityFactory<TEntity> extends EntityInfo<TEntity> {
 	 */
 	private TEntity createNewEntity() {
 		try {
-			return entityType.newInstance();
+			return getEntityType().newInstance();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

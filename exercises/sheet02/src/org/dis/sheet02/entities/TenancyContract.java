@@ -3,10 +3,24 @@ package org.dis.sheet02.entities;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Table(name = "TENANCY_CONTRACT")
 public class TenancyContract extends Contract {
+
+	@Column(name = "START_DATE", nullable=false)
+	private Date startDate;
+
+	@Column(name = "DURATION", nullable=false)
+	private int duration;
+
+	@Column(name = "ADDITIONAL_COSTS", nullable=false, scale=10, precision=2)
+	private double additionalCosts;
+
+	@Column(name = "APPARTMENT_ID")
+	@ManyToOne(targetEntity=Appartment.class, optional=false)
+	private int appartmentId;
 
 	public TenancyContract(int contractNumber, Date date, String place,
 			int personId, int appartmentId, Date startDate, int duration,
@@ -21,16 +35,4 @@ public class TenancyContract extends Contract {
 	public TenancyContract() {
 
 	}
-
-	@Column(name = "START_DATE")
-	private Date startDate;
-
-	@Column(name = "DURATION")
-	private int duration;
-
-	@Column(name = "ADDITIONAL_COSTS")
-	private double additionalCosts;
-
-	@Column(name = "APPARTMENT_ID")
-	private int appartmentId;
 }

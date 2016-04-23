@@ -3,6 +3,8 @@ package org.dis.sheet02.dal.factories;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
+import javax.persistence.Table;
+
 public class QueryFactory<TEntity> extends BaseSqlFactory<TEntity> {
 
 	public QueryFactory(Class<TEntity> entityType) {
@@ -17,7 +19,7 @@ public class QueryFactory<TEntity> extends BaseSqlFactory<TEntity> {
 			setFragments[i] = String.format("%s = %s",
 					columns[i].getColumnName(), values[i]);
 		String query = String.format("UPDATE %s SET ",
-				getTableName(entityType), String.join(", ", setFragments));
+				getTableName(getEntityType()), String.join(", ", setFragments));
 		return query;
 	}
 
@@ -25,7 +27,7 @@ public class QueryFactory<TEntity> extends BaseSqlFactory<TEntity> {
 		ColumnDef[] columns = getInsertableColumns();
 		String[] values = formatColumnValues(entity, columns);
 		String query = String.format("INSERT INTO %s (%s) VALUES (%s)",
-				getTableName(entityType),
+				getTableName(getEntityType()),
 				String.join(", ", getColumnNames(columns)),
 				String.join(", ", values));
 		return query;
@@ -42,7 +44,7 @@ public class QueryFactory<TEntity> extends BaseSqlFactory<TEntity> {
 			throw new RuntimeException(e);
 		}
 		return String.format("DELETE FROM %s WHERE %s = %s",
-				getTableName(entityType), idColumn.getColumnName(),
+				getTableName(getEntityType()), idColumn.getColumnName(),
 				formatValue(idValue));
 	}
 
@@ -54,7 +56,7 @@ public class QueryFactory<TEntity> extends BaseSqlFactory<TEntity> {
 	public String buildSelectAllStatement() {
 		ColumnDef[] columns = getColumns();
 		String[] colnames = getColumnNames(columns);
-		String tablename = getTableName(entityType);
+		String tablename = getTableName(getEntityType());
 		return String.format("SELECT %s FROM %s", String.join(", ", colnames),
 				tablename);
 	}
@@ -90,6 +92,12 @@ public class QueryFactory<TEntity> extends BaseSqlFactory<TEntity> {
 				insertable[i++] = columnDefs[j];
 			}
 		return Arrays.copyOf(insertable, i);
+	}
+
+	protected String getTableName(Class<TEntity> type) {
+		Table annotation = type.getAnnotation(Table.class);
+		return annotation != null ? annotation.name()
+				: type.getSimpleName().toUpperCase();
 	}
 
 }

@@ -8,13 +8,13 @@ import javax.persistence.Table;
 @Table(name = "HOUSE")
 public class House extends Estate {
 
-	@Column(name = "FLOORS")
+	@Column(name = "FLOORS", nullable=false)
 	private int floors;
 
-	@Column(name = "PRICE")
+	@Column(name = "PRICE", nullable=false, scale=15, precision=2)
 	private double price;
 
-	@Column(name = "GARDEN")
+	@Column(name = "GARDEN", nullable=false)
 	private int garden;
 
 	public int getFloors() {

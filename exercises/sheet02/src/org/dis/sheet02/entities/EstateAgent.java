@@ -1,24 +1,26 @@
 package org.dis.sheet02.entities;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "ESTATE_AGENT")
 public class EstateAgent {
 
+	@Id
 	@Column(name = "ID")
 	private int id;
 
-	@Column(name = "NAME")
+	@Column(name = "NAME", nullable=false)
 	private String name;
 
-	@Column(name = "LOGIN")
+	@Column(name = "LOGIN", nullable=false)
 	private String login;
 
-	@Column(name = "PASSWORD")
+	@Column(name = "PASSWORD", nullable=false)
 	private String password;
 
-	@Column(name = "ADDRES")
+	@Column(name = "ADDRESS", nullable=false)
 	private String address;
 
 	public int getId() {

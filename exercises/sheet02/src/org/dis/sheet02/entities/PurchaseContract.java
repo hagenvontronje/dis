@@ -4,19 +4,21 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "PURCHASE_CONTRACT")
 public class PurchaseContract extends Contract {
 
-	@Column(name = "NUMBER_OF_INSTALLMENTS")
+	@Column(name = "NUMBER_OF_INSTALLMENTS", nullable=false)
 	private int numberOfInstallments;
 
-	@Column(name = "INTEREST_RATE")
+	@Column(name = "INTEREST_RATE", nullable=false, scale=10, precision=4)
 	private double interestRate;
 
 	@Column(name = "HOUSE_ID")
+	@ManyToOne(targetEntity=House.class, optional=false)
 	private int houseId;
 
 	public PurchaseContract(int contractNumber, Date date, String place,

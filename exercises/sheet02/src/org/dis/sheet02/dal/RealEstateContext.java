@@ -1,7 +1,7 @@
 package org.dis.sheet02.dal;
 
-import java.sql.Connection;
-
+import org.dis.sheet02.dal.dbcontext.DbContext;
+import org.dis.sheet02.dal.dbcontext.EntitySet;
 import org.dis.sheet02.entities.Appartment;
 import org.dis.sheet02.entities.EstateAgent;
 import org.dis.sheet02.entities.House;
@@ -9,54 +9,38 @@ import org.dis.sheet02.entities.Person;
 import org.dis.sheet02.entities.PurchaseContract;
 import org.dis.sheet02.entities.TenancyContract;
 
-public class RealEstateContext {
-
-	private final Connection connection;
-
-	private final EntitySet<Person> persons;
-	private final EntitySet<House> houses;
-	private final EntitySet<Appartment> appartments;
-	private final EntitySet<EstateAgent> agents;
-	private final EntitySet<TenancyContract> tenancyContracts;
-	private final EntitySet<PurchaseContract> purchaseContracts;
+public class RealEstateContext extends DbContext {
 
 	public RealEstateContext() {
-		connection = DB2ConnectionManager.getInstance().getConnection();
-		persons = new EntitySetImpl<Person>(connection, Person.class);
-		houses = new EntitySetImpl<>(connection, House.class);
-		appartments = new EntitySetImpl<>(connection, Appartment.class);
-		agents = new EntitySetImpl<EstateAgent>(connection, EstateAgent.class);
-		tenancyContracts = new EntitySetImpl<TenancyContract>(connection,
-				TenancyContract.class);
-		purchaseContracts = new EntitySetImpl<PurchaseContract>(connection,
+		super(	Person.class, 
+				House.class, 
+				Appartment.class,
+				EstateAgent.class,
+				TenancyContract.class,
 				PurchaseContract.class);
 	}
 
-	public <TEntity> EntitySet<TEntity> getEnitySet(Class<TEntity> entityType) {
-		return new EntitySetImpl<>(connection, entityType);
-	}
-
 	public EntitySet<Person> getPersons() {
-		return persons;
+		return getEntitySet(Person.class);
 	}
 
 	public EntitySet<House> getHouses() {
-		return houses;
+		return getEntitySet(House.class);
 	}
 
 	public EntitySet<Appartment> getAppartments() {
-		return appartments;
+		return getEntitySet(Appartment.class);
 	}
 
 	public EntitySet<EstateAgent> getAgents() {
-		return agents;
+		return getEntitySet(EstateAgent.class);
 	}
 
 	public EntitySet<TenancyContract> getTenancyContracts() {
-		return tenancyContracts;
+		return getEntitySet(TenancyContract.class);
 	}
 
 	public EntitySet<PurchaseContract> getPurchaseContracts() {
-		return purchaseContracts;
+		return getEntitySet(PurchaseContract.class);
 	}
 }

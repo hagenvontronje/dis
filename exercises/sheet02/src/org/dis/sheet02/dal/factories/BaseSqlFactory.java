@@ -3,8 +3,6 @@ package org.dis.sheet02.dal.factories;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.persistence.Table;
-
 public class BaseSqlFactory<TEntity> extends EntityInfo<TEntity> {
 
 	/** The date format to use in DML statements. */
@@ -16,12 +14,6 @@ public class BaseSqlFactory<TEntity> extends EntityInfo<TEntity> {
 	
 	public BaseSqlFactory(Class<TEntity> entityType) {
 		super(entityType);
-	}
-
-	protected String getTableName(Class<TEntity> type) {
-		Table annotation = type.getAnnotation(Table.class);
-		return annotation != null ? annotation.name()
-				: type.getSimpleName().toUpperCase();
 	}
 
 	protected String[] getColumnNames(ColumnDef[] columns) {

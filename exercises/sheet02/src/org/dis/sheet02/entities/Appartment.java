@@ -8,19 +8,19 @@ import javax.persistence.Table;
 @Table(name = "APPARTMENT")
 public class Appartment extends Estate {
 
-	@Column(name = "FLOOR")
+	@Column(name = "FLOOR", nullable=false)
 	private int floor;
 
-	@Column(name = "RENT")
+	@Column(name = "RENT", nullable=false, scale=10, precision=2)
 	private double rent;
 
-	@Column(name = "ROOMS")
+	@Column(name = "ROOMS", nullable=false)
 	private int rooms;
 
-	@Column(name = "BALCONY")
+	@Column(name = "BALCONY", nullable=false)
 	private int balcony;
 
-	@Column(name = "BUILT_IN_KITCHEN")
+	@Column(name = "BUILT_IN_KITCHEN", nullable=false)
 	private int builtInKitchen;
 
 	public int getFloor() {

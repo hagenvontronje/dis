@@ -3,18 +3,25 @@ package org.dis.sheet02.entities;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 public class Contract {
-	@Column(name = "CONTRACT_NUMBER")
+	@Id
+	@Column(name="ID")
+	private int id;
+	
+	@Column(name = "CONTRACT_NUMBER", nullable=false)
 	private int contractNumber;
 
-	@Column(name = "DATE")
+	@Column(name = "DATE", nullable=false)
 	private Date date;
 
-	@Column(name = "PLACE")
+	@Column(name = "PLACE", nullable=false)
 	private String place;
 
-	@Column(name = "PERSON_ID")
+	@Column(name = "PERSON_ID", nullable=false)
+	@ManyToOne(targetEntity=Person.class, optional=false)
 	private int personId;
 
 	public Contract() {
@@ -58,5 +65,13 @@ public class Contract {
 
 	public void setPersonId(int personId) {
 		this.personId = personId;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

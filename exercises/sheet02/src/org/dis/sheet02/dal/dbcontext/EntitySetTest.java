@@ -1,10 +1,11 @@
-package org.dis.sheet02.dal;
+package org.dis.sheet02.dal.dbcontext;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.List;
 
+import org.dis.sheet02.dal.DB2ConnectionManager;
 import org.dis.sheet02.entities.Person;
 import org.junit.Test;
 

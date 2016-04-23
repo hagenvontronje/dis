@@ -1,4 +1,4 @@
-package org.dis.sheet02.dal;
+package org.dis.sheet02.dal.dbcontext;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.List;
 
 import org.dis.sheet02.dal.factories.EntityFactory;
+import org.dis.sheet02.dal.factories.EntityInfo;
 import org.dis.sheet02.dal.factories.QueryException;
 import org.dis.sheet02.dal.factories.QueryFactory;
 
@@ -14,11 +15,14 @@ import org.dis.sheet02.dal.factories.QueryFactory;
  * An abstraction for a database table.
  * 
  * @author Burkhart, Julian
+ * @author Elshinawi, Ahmed
  *
  * @param <TEntity>
  *            The type of the entities that the instance manages.
  */
-public class EntitySetImpl<TEntity> implements EntitySet<TEntity> {
+class EntitySetImpl<TEntity> 
+		extends EntityInfo<TEntity>
+		implements EntitySet<TEntity> {
 
 	/** The connection to use for db access. */
 	private final Connection connection;
@@ -36,6 +40,7 @@ public class EntitySetImpl<TEntity> implements EntitySet<TEntity> {
 	 *            The class object of the entity type.
 	 */
 	public EntitySetImpl(Connection connection, Class<TEntity> entityType) {
+		super(entityType);
 		this.connection = connection;
 		this.queryFactory = new QueryFactory<>(entityType);
 		this.entityFactory = new EntityFactory<>(entityType);
@@ -50,8 +55,7 @@ public class EntitySetImpl<TEntity> implements EntitySet<TEntity> {
 	public void save(TEntity entity) throws QueryException {
 		String query;
 		boolean isNew = entityFactory.isNewEntity(entity);
-		query = isNew 
-				? queryFactory.buildInsertStatement(entity)
+		query = isNew ? queryFactory.buildInsertStatement(entity)
 				: queryFactory.buildUpdateStatement(entity);
 		try {
 			PreparedStatement statement = connection.prepareStatement(query,
@@ -129,8 +133,9 @@ public class EntitySetImpl<TEntity> implements EntitySet<TEntity> {
 			throw new QueryException(e);
 		}
 		if (entity == null)
-			throw new QueryException(String.format(
-					"Entity with key %s was not found.", queryFactory.formatValue(id)));
+			throw new QueryException(
+					String.format("Entity with key %s was not found.",
+							queryFactory.formatValue(id)));
 		return entity;
 	}
 }

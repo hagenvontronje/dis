@@ -1,4 +1,4 @@
-package org.dis.sheet02.dal;
+package org.dis.sheet02.dal.dbcontext;
 
 import java.util.List;
 
@@ -20,5 +20,7 @@ public interface EntitySet<TEntity> {
 	void delete(TEntity entity) throws QueryException;
 
 	TEntity get(Object id) throws QueryException;
+
+	Class<TEntity> getEntityType();
 
 }

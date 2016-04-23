@@ -13,13 +13,13 @@ public class Person {
 	@Column(name = "ID")
 	private int id = -1;
 
-	@Column(name = "FIRST_NAME")
+	@Column(name = "FIRST_NAME", nullable=false)
 	private String firstName;
 
-	@Column(name = "LAST_NAME")
+	@Column(name = "LAST_NAME", nullable=false)
 	private String lastName;
 
-	@Column(name = "ADDRESS")
+	@Column(name = "ADDRESS", nullable=false)
 	private String address;
 
 	public Person(String _firstName, String _name, String _address) {
