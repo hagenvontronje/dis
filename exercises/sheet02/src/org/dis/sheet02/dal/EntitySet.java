@@ -23,8 +23,9 @@ import javax.persistence.Table;
  *            The type of the entities that the instance manages.
  */
 public class EntitySet<TEntity> {
-	
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyy-mm-dd hh:mm:ss");
+
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(
+			"yyyyy-mm-dd hh:mm:ss");
 
 	private static final String NULL_KEYWORD = "null";
 
@@ -76,8 +77,8 @@ public class EntitySet<TEntity> {
 			Object idValue = idColumn.getField().get(entity);
 			if (idValue instanceof Integer)
 				return ((Integer) idValue) <= 0;
-			throw new RuntimeException("Unhandled type of identity column: " 
-										+ idValue.getClass().getSimpleName());
+			throw new RuntimeException("Unhandled type of identity column: "
+					+ idValue.getClass().getSimpleName());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -88,8 +89,7 @@ public class EntitySet<TEntity> {
 		boolean isNew = isNewEntity(entity);
 		query = isNew ? getInsertStatement(entity) : getUpdateStatement(entity);
 		try {
-			PreparedStatement statement = connection.prepareStatement(
-					query, 
+			PreparedStatement statement = connection.prepareStatement(query,
 					Statement.RETURN_GENERATED_KEYS);
 			statement.execute();
 			if (isNew) {
@@ -107,8 +107,7 @@ public class EntitySet<TEntity> {
 			Field idField = getIdColumn().getField();
 			idField.setAccessible(true);
 			idField.set(entity, idValue);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -118,19 +117,17 @@ public class EntitySet<TEntity> {
 		String[] values = formatColumnValues(entity, columns);
 		String[] setFragments = new String[columns.length];
 		for (int i = 0; i < columns.length; i++)
-			setFragments[i] = String.format("%s = %s", columns[i].getColumnName(), values[i]);
-		String query = String.format(
-				"UPDATE %s SET ",
-				getTableName(entityType),
+			setFragments[i] = String.format("%s = %s",
+					columns[i].getColumnName(), values[i]);
+		String query = String.format("UPDATE %s SET ", getTableName(entityType),
 				String.join(", ", setFragments));
 		return query;
 	}
 
 	private String getInsertStatement(TEntity entity) {
 		ColumnDef[] columns = getInsertableColumns();
-		String[] values = formatColumnValues(entity, columns); 
-		String query = String.format(
-				"INSERT INTO %s (%s) VALUES (%s)",
+		String[] values = formatColumnValues(entity, columns);
+		String query = String.format("INSERT INTO %s (%s) VALUES (%s)",
 				getTableName(entityType),
 				String.join(", ", getColumnNames(columns)),
 				String.join(", ", values));
@@ -140,7 +137,7 @@ public class EntitySet<TEntity> {
 	private String[] formatColumnValues(TEntity entity, ColumnDef[] columns) {
 		String[] values = new String[columns.length];
 		try {
-			for (int i = 0; i < columns.length; i++){
+			for (int i = 0; i < columns.length; i++) {
 				Field field = columns[i].getField();
 				field.setAccessible(true);
 				Object value = field.get(entity);
@@ -148,7 +145,7 @@ public class EntitySet<TEntity> {
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		} 
+		}
 		return values;
 	}
 
@@ -156,10 +153,11 @@ public class EntitySet<TEntity> {
 		if (value == null)
 			return NULL_KEYWORD;
 		if (value instanceof Date)
-			return String.format("'%s'", DATE_FORMAT.format((Date)value));
-		if (value instanceof Integer || value instanceof Long || value instanceof Short)
+			return String.format("'%s'", DATE_FORMAT.format((Date) value));
+		if (value instanceof Integer || value instanceof Long
+				|| value instanceof Short)
 			return value.toString();
-		else 
+		else
 			return String.format("'%s'", value);
 	}
 
@@ -185,7 +183,8 @@ public class EntitySet<TEntity> {
 		String selectStatement = getSelectAllStatement();
 		List<TEntity> entities = null;
 		try {
-			PreparedStatement statement = connection.prepareStatement(selectStatement);
+			PreparedStatement statement = connection
+					.prepareStatement(selectStatement);
 			statement.execute();
 			ResultSet result = statement.getResultSet();
 			entities = CreateEntitiesFromResultSet(result);
@@ -204,14 +203,16 @@ public class EntitySet<TEntity> {
 	 * @throws QueryException
 	 *             If an error ocurrs while browsing the result.
 	 */
-	private List<TEntity> CreateEntitiesFromResultSet(ResultSet result) throws QueryException {
+	private List<TEntity> CreateEntitiesFromResultSet(ResultSet result)
+			throws QueryException {
 		List<TEntity> entities = new ArrayList<>();
 		try {
 			while (result.next()) {
 				TEntity entity = CreateEntnity(result);
 				entities.add(entity);
 			}
-		} catch (SQLException | IllegalArgumentException | IllegalAccessException e) {
+		} catch (SQLException | IllegalArgumentException
+				| IllegalAccessException e) {
 			throw new QueryException(e);
 		}
 		return entities;
@@ -228,13 +229,14 @@ public class EntitySet<TEntity> {
 	 * @throws IllegalAccessException
 	 *             When initializing the entity fails.
 	 */
-	private TEntity CreateEntnity(ResultSet result) throws SQLException, IllegalAccessException {
+	private TEntity CreateEntnity(ResultSet result)
+			throws SQLException, IllegalAccessException {
 		ColumnDef[] columnDefs = getColumns();
 		TEntity entity = createNewEntity();
 		for (int i = 0; i < columnDefs.length; i++) {
 			ColumnDef columndef = columnDefs[i];
 			columndef.getField().setAccessible(true);
-			Object value = result.getObject(i+1);
+			Object value = result.getObject(i + 1);
 			columndef.getField().set(entity, value);
 		}
 		return entity;
@@ -262,7 +264,8 @@ public class EntitySet<TEntity> {
 		ColumnDef[] columns = getColumns();
 		String[] colnames = getColumnNames(columns);
 		String tablename = getTableName(entityType);
-		return String.format("SELECT %s FROM %s", String.join(", ", colnames), tablename);
+		return String.format("SELECT %s FROM %s", String.join(", ", colnames),
+				tablename);
 	}
 
 	private String[] getColumnNames(ColumnDef[] columns) {
@@ -275,15 +278,18 @@ public class EntitySet<TEntity> {
 
 	private String getTableName(Class<TEntity> type) {
 		Table annotation = type.getAnnotation(Table.class);
-		return annotation != null ? annotation.name() : type.getSimpleName().toUpperCase();
+		return annotation != null ? annotation.name()
+				: type.getSimpleName().toUpperCase();
 	}
 
 	public void delete(TEntity entity) throws QueryException {
 		if (isNewEntity(entity))
-			throw new IllegalArgumentException("Cannot delete non-persisted entity.");
+			throw new IllegalArgumentException(
+					"Cannot delete non-persisted entity.");
 		String deleteStatement = getDeleteStatement(entity);
 		try {
-			PreparedStatement statement = connection.prepareStatement(deleteStatement);
+			PreparedStatement statement = connection
+					.prepareStatement(deleteStatement);
 			statement.execute();
 			if (statement.getUpdateCount() == 0)
 				throw new QueryException("No rows were deleted.");
@@ -291,7 +297,7 @@ public class EntitySet<TEntity> {
 			throw new QueryException(e);
 		}
 	}
-	
+
 	public TEntity Get(Object id) throws QueryException {
 		String query = getSelectAllStatement(id);
 		TEntity entity = null;
@@ -305,13 +311,15 @@ public class EntitySet<TEntity> {
 			throw new QueryException(e);
 		}
 		if (entity == null)
-			throw new QueryException(String.format("Entity with key %s was not found.", formatValue(id)));
+			throw new QueryException(String.format(
+					"Entity with key %s was not found.", formatValue(id)));
 		return entity;
 	}
 
 	private String getSelectAllStatement(Object id) {
 		String query = getSelectAllStatement();
-		query = query + String.format(" WHERE %s = %s", getIdColumn().getColumnName(), formatValue(id));
+		query = query + String.format(" WHERE %s = %s",
+				getIdColumn().getColumnName(), formatValue(id));
 		return query;
 	}
 
@@ -321,13 +329,12 @@ public class EntitySet<TEntity> {
 		Object idValue = null;
 		try {
 			idValue = idColumn.getField().get(entity);
-			
+
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		return String.format("DELETE FROM %s WHERE %s = %s", 
-				getTableName(entityType),
-				idColumn.getColumnName(),
+		return String.format("DELETE FROM %s WHERE %s = %s",
+				getTableName(entityType), idColumn.getColumnName(),
 				formatValue(idValue));
 	}
 }

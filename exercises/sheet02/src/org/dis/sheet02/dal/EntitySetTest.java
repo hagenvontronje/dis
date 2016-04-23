@@ -12,19 +12,18 @@ public class EntitySetTest {
 
 	@Test
 	public void testSelectAll() {
-		
+
 		try {
 			EntitySet<Person> persons = new EntitySet<Person>(
-					DB2ConnectionManager.getInstance().getConnection(), 
+					DB2ConnectionManager.getInstance().getConnection(),
 					Person.class);
 			List<Person> personlist = persons.GetAll();
-			System.out.println(String.format("%d persons found in DB:", personlist.size()));
+			System.out.println(String.format("%d persons found in DB:",
+					personlist.size()));
 			for (Person person : personlist)
 				System.out.println(String.format(
-						"<Id=%d, FirstName=%s, LastName=%s>",
-						person.getId(), 
-						person.getFirstName(),
-						person.getLastName()));
+						"<Id=%d, FirstName=%s, LastName=%s>", person.getId(),
+						person.getFirstName(), person.getLastName()));
 			System.out.println("=== END ===");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -36,7 +35,7 @@ public class EntitySetTest {
 	public void testSaveEntity() {
 		try {
 			EntitySet<Person> persons = new EntitySet<Person>(
-					DB2ConnectionManager.getInstance().getConnection(), 
+					DB2ConnectionManager.getInstance().getConnection(),
 					Person.class);
 			Person person = new Person("Hagen", "von Tronje", null);
 			persons.saveEntity(person);
@@ -52,7 +51,7 @@ public class EntitySetTest {
 	public void testGet() {
 		try {
 			EntitySet<Person> persons = new EntitySet<Person>(
-					DB2ConnectionManager.getInstance().getConnection(), 
+					DB2ConnectionManager.getInstance().getConnection(),
 					Person.class);
 			Person person = new Person("Hagen", "von Tronje", null);
 			persons.saveEntity(person);

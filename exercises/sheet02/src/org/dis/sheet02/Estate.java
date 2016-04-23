@@ -6,25 +6,25 @@ import javax.persistence.Id;
 public class Estate {
 
 	@Id
-	@Column(name="ID")
+	@Column(name = "ID")
 	private int id = -1;
-	
-	@Column(name="CITY")
+
+	@Column(name = "CITY")
 	private String city;
 
-	@Column(name="POSTAL_CODE")
+	@Column(name = "POSTAL_CODE")
 	private String postalCode;
 
-	@Column(name="STREET")
+	@Column(name = "STREET")
 	private String street;
 
-	@Column(name="STREET_NUMBER")
+	@Column(name = "STREET_NUMBER")
 	private String streetNumber;
 
-	@Column(name="SQUARE_AREA")
+	@Column(name = "SQUARE_AREA")
 	private double squareArea;
 
-	@Column(name="ESTATE_AGENT_ID")
+	@Column(name = "ESTATE_AGENT_ID")
 	private int managerId;
 
 	public int getId() {

@@ -9,7 +9,7 @@ public class ColumnDef {
 	private final Field field;
 	private final Column columnAnnotation;
 	private final boolean isId;
-	
+
 	public ColumnDef(Field field) {
 		this.field = field;
 		this.columnAnnotation = getColumnAnnotation(field);

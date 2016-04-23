@@ -5,18 +5,18 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="HOUSE")
+@Table(name = "HOUSE")
 public class House extends Estate {
 
-	@Column(name="FLOORS")
+	@Column(name = "FLOORS")
 	private int floors;
 
-	@Column(name="PRICE")
+	@Column(name = "PRICE")
 	private double price;
 
-	@Column(name="GARDEN")
+	@Column(name = "GARDEN")
 	private int garden;
-	
+
 	public int getFloors() {
 		return floors;
 	}

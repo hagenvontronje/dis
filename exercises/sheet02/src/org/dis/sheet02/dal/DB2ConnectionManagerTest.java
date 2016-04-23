@@ -49,15 +49,15 @@ public class DB2ConnectionManagerTest {
 	}
 
 	private void printTables(Connection connection) throws SQLException {
-		PreparedStatement statement = connection
-				.prepareStatement("select tabname from syscat.tables where tabschema = 'VSISP13'");
-		
+		PreparedStatement statement = connection.prepareStatement(
+				"select tabname from syscat.tables where tabschema = 'VSISP13'");
+
 		statement.execute();
 		ResultSet resultSet = statement.getResultSet();
 		int columnCount = resultSet.getMetaData().getColumnCount();
-		while (resultSet.next()){
-			for (int col = 0; col < columnCount; col++){
-				System.out.print(resultSet.getObject(col+1) + "; ");
+		while (resultSet.next()) {
+			for (int col = 0; col < columnCount; col++) {
+				System.out.print(resultSet.getObject(col + 1) + "; ");
 			}
 			System.out.println();
 			printColumns(connection, resultSet.getString(1));
@@ -67,17 +67,16 @@ public class DB2ConnectionManagerTest {
 	private void printColumns(Connection connection, String tablename) {
 		PreparedStatement statement;
 		try {
-			statement = connection.prepareStatement(
-					String.format(
-							"select colname from syscat.columns where tabschema = 'VSISP13' and tabname = '%s'", 
-							tablename.trim()));
+			statement = connection.prepareStatement(String.format(
+					"select colname from syscat.columns where tabschema = 'VSISP13' and tabname = '%s'",
+					tablename.trim()));
 			statement.execute();
 			ResultSet resultSet = statement.getResultSet();
 			int columnCount = resultSet.getMetaData().getColumnCount();
 			while (resultSet.next()) {
 				System.out.print("\t");
-				for (int col = 0; col < columnCount; col++){
-					System.out.print(resultSet.getObject(col+1) + "; ");
+				for (int col = 0; col < columnCount; col++) {
+					System.out.print(resultSet.getObject(col + 1) + "; ");
 				}
 				System.out.println();
 			}
@@ -85,7 +84,7 @@ public class DB2ConnectionManagerTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }

@@ -5,22 +5,22 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="APPARTMENT")
+@Table(name = "APPARTMENT")
 public class Appartment extends Estate {
 
-	@Column(name="FLOOR")
+	@Column(name = "FLOOR")
 	private int floor;
 
-	@Column(name="RENT")
+	@Column(name = "RENT")
 	private double rent;
 
-	@Column(name="ROOMS")
+	@Column(name = "ROOMS")
 	private int rooms;
 
-	@Column(name="BALCONY")
+	@Column(name = "BALCONY")
 	private int balcony;
 
-	@Column(name="BUILT_IN_KITCHEN")
+	@Column(name = "BUILT_IN_KITCHEN")
 	private int builtInKitchen;
 
 	public int getFloor() {

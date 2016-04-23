@@ -3,22 +3,22 @@ package org.dis.sheet02;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-@Table(name="ESTATE_AGENT")
+@Table(name = "ESTATE_AGENT")
 public class EstateAgent {
 
-	@Column(name="ID")
+	@Column(name = "ID")
 	private int id;
 
-	@Column(name="NAME")
+	@Column(name = "NAME")
 	private String name;
 
-	@Column(name="LOGIN")
+	@Column(name = "LOGIN")
 	private String login;
 
-	@Column(name="PASSWORD")
+	@Column(name = "PASSWORD")
 	private String password;
-	
-	@Column(name="ADDRES")
+
+	@Column(name = "ADDRES")
 	private String address;
 
 	public int getId() {

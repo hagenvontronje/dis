@@ -10,7 +10,7 @@ import org.dis.sheet02.PurchaseContract;
 import org.dis.sheet02.TenancyContract;
 
 public class RealEstateContext {
-	
+
 	private final Connection connection;
 
 	private final EntitySet<Person> persons;
@@ -19,17 +19,19 @@ public class RealEstateContext {
 	private final EntitySet<EstateAgent> agents;
 	private final EntitySet<TenancyContract> tenancyContracts;
 	private final EntitySet<PurchaseContract> purchaseContracts;
-	
+
 	public RealEstateContext() {
 		connection = DB2ConnectionManager.getInstance().getConnection();
 		persons = new EntitySet<Person>(connection, Person.class);
 		houses = new EntitySet<>(connection, House.class);
 		appartments = new EntitySet<>(connection, Appartment.class);
 		agents = new EntitySet<EstateAgent>(connection, EstateAgent.class);
-		tenancyContracts= new EntitySet<TenancyContract>(connection, TenancyContract.class);
-		purchaseContracts = new EntitySet<PurchaseContract>(connection, PurchaseContract.class);
+		tenancyContracts = new EntitySet<TenancyContract>(connection,
+				TenancyContract.class);
+		purchaseContracts = new EntitySet<PurchaseContract>(connection,
+				PurchaseContract.class);
 	}
-	
+
 	public <TEntity> EntitySet<TEntity> getEnitySet(Class<TEntity> entityType) {
 		return new EntitySet<>(connection, entityType);
 	}

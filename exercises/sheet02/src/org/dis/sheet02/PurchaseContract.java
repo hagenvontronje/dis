@@ -19,13 +19,9 @@ public class PurchaseContract extends Contract {
 	@Column(name = "HOUSE_ID")
 	private int houseId;
 
-	public PurchaseContract(int contractNumber, 
-							Date date, 
-							String place, 
-							int personId, 
-							int houseId, 
-							int numInstallments, 
-							double interestRate) {
+	public PurchaseContract(int contractNumber, Date date, String place,
+			int personId, int houseId, int numInstallments,
+			double interestRate) {
 		super(contractNumber, date, place, personId);
 		this.setNumberOfInstallments(numInstallments);
 		this.setInterestRate(interestRate);
