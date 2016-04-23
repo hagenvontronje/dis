@@ -14,10 +14,10 @@ public class EntitySetTest {
 	public void testSelectAll() {
 
 		try {
-			EntitySet<Person> persons = new EntitySet<Person>(
+			EntitySet<Person> persons = new EntitySetImpl<Person>(
 					DB2ConnectionManager.getInstance().getConnection(),
 					Person.class);
-			List<Person> personlist = persons.GetAll();
+			List<Person> personlist = persons.getAll();
 			System.out.println(String.format("%d persons found in DB:",
 					personlist.size()));
 			for (Person person : personlist)
@@ -34,11 +34,11 @@ public class EntitySetTest {
 	@Test
 	public void testSaveEntity() {
 		try {
-			EntitySet<Person> persons = new EntitySet<Person>(
+			EntitySet<Person> persons = new EntitySetImpl<Person>(
 					DB2ConnectionManager.getInstance().getConnection(),
 					Person.class);
 			Person person = new Person("Hagen", "von Tronje", null);
-			persons.saveEntity(person);
+			persons.save(person);
 			assertTrue(person.getId() > 0);
 			persons.delete(person);
 		} catch (Exception e) {
@@ -50,13 +50,13 @@ public class EntitySetTest {
 	@Test
 	public void testGet() {
 		try {
-			EntitySet<Person> persons = new EntitySet<Person>(
+			EntitySet<Person> persons = new EntitySetImpl<Person>(
 					DB2ConnectionManager.getInstance().getConnection(),
 					Person.class);
 			Person person = new Person("Hagen", "von Tronje", null);
-			persons.saveEntity(person);
+			persons.save(person);
 			assertTrue(person.getId() > 0);
-			Person retrievedPerson = persons.Get(person.getId());
+			Person retrievedPerson = persons.get(person.getId());
 			assertTrue(person.getId() == retrievedPerson.getId());
 			persons.delete(person);
 		} catch (Exception e) {

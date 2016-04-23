@@ -22,18 +22,18 @@ public class RealEstateContext {
 
 	public RealEstateContext() {
 		connection = DB2ConnectionManager.getInstance().getConnection();
-		persons = new EntitySet<Person>(connection, Person.class);
-		houses = new EntitySet<>(connection, House.class);
-		appartments = new EntitySet<>(connection, Appartment.class);
-		agents = new EntitySet<EstateAgent>(connection, EstateAgent.class);
-		tenancyContracts = new EntitySet<TenancyContract>(connection,
+		persons = new EntitySetImpl<Person>(connection, Person.class);
+		houses = new EntitySetImpl<>(connection, House.class);
+		appartments = new EntitySetImpl<>(connection, Appartment.class);
+		agents = new EntitySetImpl<EstateAgent>(connection, EstateAgent.class);
+		tenancyContracts = new EntitySetImpl<TenancyContract>(connection,
 				TenancyContract.class);
-		purchaseContracts = new EntitySet<PurchaseContract>(connection,
+		purchaseContracts = new EntitySetImpl<PurchaseContract>(connection,
 				PurchaseContract.class);
 	}
 
 	public <TEntity> EntitySet<TEntity> getEnitySet(Class<TEntity> entityType) {
-		return new EntitySet<>(connection, entityType);
+		return new EntitySetImpl<>(connection, entityType);
 	}
 
 	public EntitySet<Person> getPersons() {

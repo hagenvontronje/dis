@@ -1,4 +1,4 @@
-package org.dis.sheet02.dal;
+package org.dis.sheet02.dal.factories;
 
 public class QueryException extends Exception {
 
