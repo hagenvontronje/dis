@@ -2,12 +2,12 @@ package org.dis.sheet02.dal;
 
 import java.sql.Connection;
 
-import org.dis.sheet02.Appartment;
-import org.dis.sheet02.EstateAgent;
-import org.dis.sheet02.House;
-import org.dis.sheet02.Person;
-import org.dis.sheet02.PurchaseContract;
-import org.dis.sheet02.TenancyContract;
+import org.dis.sheet02.entities.Appartment;
+import org.dis.sheet02.entities.EstateAgent;
+import org.dis.sheet02.entities.House;
+import org.dis.sheet02.entities.Person;
+import org.dis.sheet02.entities.PurchaseContract;
+import org.dis.sheet02.entities.TenancyContract;
 
 public class RealEstateContext {
 

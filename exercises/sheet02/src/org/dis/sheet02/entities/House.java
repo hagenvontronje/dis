@@ -1,4 +1,4 @@
-package org.dis.sheet02;
+package org.dis.sheet02.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
