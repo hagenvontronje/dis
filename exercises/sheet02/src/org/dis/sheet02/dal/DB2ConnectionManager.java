@@ -2,9 +2,6 @@ package org.dis.sheet02.dal;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,11 +19,14 @@ public class DB2ConnectionManager {
 	// instance of Driver Manager
 	private static DB2ConnectionManager _instance = null;
 
-	// DB2 connection
-	private Connection _con;
+	private String jdbcUser;
+
+	private String jdbcPass;
+
+	private String jdbcUrl;
 
 	/**
-	 * Erzeugt eine Datenbank-Verbindung
+	 * Erzeugt eine Datenbank-Verbindung 
 	 */
 	private DB2ConnectionManager() {
 		try {
@@ -37,24 +37,12 @@ public class DB2ConnectionManager {
 			properties.load(stream);
 			stream.close();
 
-			String jdbcUser = properties.getProperty("jdbc_user");
-			String jdbcPass = properties.getProperty("jdbc_pass");
-			String jdbcUrl = properties.getProperty("jdbc_url");
+			jdbcUser = properties.getProperty("jdbc_user");
+			jdbcPass = properties.getProperty("jdbc_pass");
+			jdbcUrl = properties.getProperty("jdbc_url");
 
-			// Verbindung zur DB2 herstellen
-			Class.forName("com.ibm.db2.jcc.DB2Driver");
-			_con = DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcPass);
-
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 
 	}
@@ -74,10 +62,19 @@ public class DB2ConnectionManager {
 	/**
 	 * Liefert eine Verbindung zur DB2 zurC<ck
 	 * 
-	 * @return Connection
+	 * @return Connection A new connection to the database.
+	 * @throws SQLException Whe the connection fails.
 	 */
-	public Connection getConnection() {
-		return _con;
+	public Connection getConnection() throws SQLException {
+		try {
+			Class.forName("com.ibm.db2.jcc.DB2Driver");
+			Connection c = DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcPass);
+			c.setAutoCommit(true);
+			return c;
+			
+		} catch (Exception e) {
+			throw new SQLException(e);
+		}
 	}
 
 }

@@ -7,7 +7,7 @@ public class BaseSqlFactory<TEntity> extends EntityInfo<TEntity> {
 
 	/** The date format to use in DML statements. */
 	private static final SimpleDateFormat DATE_FORMAT = 
-			new SimpleDateFormat("yyyyy-mm-dd hh:mm:ss");
+			new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	
 	/** The null keyword to use in SQL statements.*/
 	private static final String NULL_KEYWORD = "null";

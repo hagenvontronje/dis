@@ -3,12 +3,13 @@ package org.dis.sheet02.dal.dbcontext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import org.dis.sheet02.dal.QueryPrinter;
 import org.dis.sheet02.dal.factories.EntityFactory;
 import org.dis.sheet02.dal.factories.EntityInfo;
-import org.dis.sheet02.dal.factories.QueryException;
 import org.dis.sheet02.dal.factories.QueryFactory;
 
 /**
@@ -30,7 +31,7 @@ class EntitySetImpl<TEntity>
 	private final QueryFactory<TEntity> queryFactory;
 
 	private final EntityFactory<TEntity> entityFactory;
-
+	
 	/**
 	 * Creates a new entity set.
 	 * 
@@ -52,22 +53,25 @@ class EntitySetImpl<TEntity>
 	 * @see org.dis.sheet02.dal.EntitySet#saveEntity(TEntity)
 	 */
 	@Override
-	public void save(TEntity entity) throws QueryException {
+	public void save(TEntity entity) throws SQLException {
 		String query;
 		boolean isNew = entityFactory.isNewEntity(entity);
 		query = isNew ? queryFactory.buildInsertStatement(entity)
 				: queryFactory.buildUpdateStatement(entity);
 		try {
+			System.out.println(query);
 			PreparedStatement statement = connection.prepareStatement(query,
 					Statement.RETURN_GENERATED_KEYS);
 			statement.execute();
 			if (isNew) {
 				ResultSet keys = statement.getGeneratedKeys();
-				if (keys != null && keys.next())
+				if (keys != null && keys.next()) {
+					System.out.printf("New ID: %d%n", keys.getInt(1)); 
 					entityFactory.setId(entity, keys.getInt(1));
+				}
 			}
 		} catch (Exception e) {
-			throw new QueryException(e);
+			throw new SQLException(e);
 		}
 	}
 
@@ -77,17 +81,21 @@ class EntitySetImpl<TEntity>
 	 * @see org.dis.sheet02.dal.EntitySet#GetAll()
 	 */
 	@Override
-	public List<TEntity> getAll() throws QueryException {
+	public List<TEntity> getAll() throws SQLException {
 		String selectStatement = queryFactory.buildSelectAllStatement();
 		List<TEntity> entities = null;
 		try {
+			System.out.println(selectStatement);
 			PreparedStatement statement = connection
 					.prepareStatement(selectStatement);
 			statement.execute();
 			ResultSet result = statement.getResultSet();
+			QueryPrinter.printResult(result);
+			statement.execute();
+			result = statement.getResultSet();
 			entities = entityFactory.createEntities(result);
 		} catch (Exception e) {
-			throw new QueryException(e);
+			throw new SQLException(e);
 		}
 		return entities;
 	}
@@ -98,19 +106,21 @@ class EntitySetImpl<TEntity>
 	 * @see org.dis.sheet02.dal.EntitySet#delete(TEntity)
 	 */
 	@Override
-	public void delete(TEntity entity) throws QueryException {
+	public void delete(TEntity entity) throws SQLException {
 		if (entityFactory.isNewEntity(entity))
 			throw new IllegalArgumentException(
 					"Cannot delete non-persisted entity.");
 		String deleteStatement = queryFactory.buildDeleteStatement(entity);
 		try {
+			System.out.println(deleteStatement);
 			PreparedStatement statement = connection
 					.prepareStatement(deleteStatement);
 			statement.execute();
+			System.out.printf("Deleted rows: %d%n", statement.getUpdateCount());
 			if (statement.getUpdateCount() == 0)
-				throw new QueryException("No rows were deleted.");
+				throw new SQLException("No rows were deleted.");
 		} catch (Exception e) {
-			throw new QueryException(e);
+			throw new SQLException(e);
 		}
 	}
 
@@ -120,20 +130,24 @@ class EntitySetImpl<TEntity>
 	 * @see org.dis.sheet02.dal.EntitySet#Get(java.lang.Object)
 	 */
 	@Override
-	public TEntity get(Object id) throws QueryException {
+	public TEntity get(Object id) throws SQLException {
 		String query = queryFactory.buildSelectAllStatement(id);
 		TEntity entity = null;
 		try {
+			System.out.println(query);
 			PreparedStatement statement = connection.prepareStatement(query);
 			statement.execute();
 			ResultSet result = statement.getResultSet();
+			QueryPrinter.printResult(result);
+			statement.execute();
+			result = statement.getResultSet();
 			if (result != null && result.next())
 				entity = entityFactory.createEntnity(result);
 		} catch (Exception e) {
-			throw new QueryException(e);
+			throw new SQLException(e);
 		}
 		if (entity == null)
-			throw new QueryException(
+			throw new SQLException(
 					String.format("Entity with key %s was not found.",
 							queryFactory.formatValue(id)));
 		return entity;

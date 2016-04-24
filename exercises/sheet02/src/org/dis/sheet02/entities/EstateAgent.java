@@ -23,6 +23,18 @@ public class EstateAgent {
 	@Column(name = "ADDRESS", nullable=false)
 	private String address;
 
+	public EstateAgent() { }
+	public EstateAgent(	String name, 
+            			String address, 
+            			String login, 
+            			String password) 
+	{ 
+		this.name = name;
+		this.address = address;
+		this.login = login;
+		this.password = password;
+	}
+	
 	public int getId() {
 		return id;
 	}

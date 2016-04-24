@@ -98,12 +98,19 @@ public class EntityInfo<TEntity> {
 				: entityType.getSimpleName().toUpperCase();
 	}
 
-	public List<Class<?>> getForeinKeysTypes() {
-		List<Class<?>> keys = new ArrayList<>();
+	/**
+	 * Returns a list of all types this type depends upon due to foreign keys.
+	 * @return A list of all dependencies.
+	 */
+	public List<Class<?>> getDependencies() {
+		List<Class<?>> deps = new ArrayList<>();
 		for (ColumnDef column : getColumns())
-			if (column.isForeignkey())
-				keys.add(column.getForeignKeyDefinition().getTargetType());
-		return keys;
+			if (column.isForeignkey()) {
+				Class<?> targetType = column.getForeignKeyDefinition().getTargetType();
+				deps.add(targetType);
+				deps.addAll(new EntityInfo<>(targetType).getDependencies());
+			}
+		return deps;
 	}
 
 }

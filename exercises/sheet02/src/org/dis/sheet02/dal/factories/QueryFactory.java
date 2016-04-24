@@ -18,18 +18,18 @@ public class QueryFactory<TEntity> extends BaseSqlFactory<TEntity> {
 		for (int i = 0; i < columns.length; i++)
 			setFragments[i] = String.format("%s = %s",
 					columns[i].getColumnName(), values[i]);
-		String query = String.format("UPDATE %s SET ",
-				getTableName(getEntityType()), String.join(", ", setFragments));
+		String query = String.format("UPDATE %s SET \n\t%s",
+				getTableName(getEntityType()), String.join(",\n\t", setFragments));
 		return query;
 	}
 
 	public String buildInsertStatement(TEntity entity) {
 		ColumnDef[] columns = getInsertableColumns();
 		String[] values = formatColumnValues(entity, columns);
-		String query = String.format("INSERT INTO %s (%s) VALUES (%s)",
+		String query = String.format("INSERT INTO %s (\n\t%s)\nVALUES (%s)",
 				getTableName(getEntityType()),
-				String.join(", ", getColumnNames(columns)),
-				String.join(", ", values));
+				String.join(",\n\t", getColumnNames(columns)),
+				String.join(",\n\t", values));
 		return query;
 	}
 
@@ -57,13 +57,13 @@ public class QueryFactory<TEntity> extends BaseSqlFactory<TEntity> {
 		ColumnDef[] columns = getColumns();
 		String[] colnames = getColumnNames(columns);
 		String tablename = getTableName(getEntityType());
-		return String.format("SELECT %s FROM %s", String.join(", ", colnames),
+		return String.format("SELECT %s\n  FROM %s", String.join(",\n       ", colnames),
 				tablename);
 	}
 
 	public String buildSelectAllStatement(Object id) {
 		String query = buildSelectAllStatement();
-		query = query + String.format(" WHERE %s = %s",
+		query = query + String.format("\n WHERE %s = %s",
 				getIdColumn().getColumnName(), formatValue(id));
 		return query;
 	}

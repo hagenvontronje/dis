@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utility class to print out the contents of a query to a text output.
@@ -32,12 +34,55 @@ public class QueryPrinter {
 			throws SQLException {
 		if (result == null)
 			return;
-		int[] columnLenths = getColumnLengths(result.getMetaData());
+		List<String[]> lines = new ArrayList<String[]>();
+		lines.add(getColumnNames(result.getMetaData()));
+		int[] types = getTypes(result);
+		addRows(lines, result, types);
+		int[] columnLenths = getColumnLengths(lines);
 		int lineLength = getLineLength(columnLenths);
-		printHeader(stream, result.getMetaData(), columnLenths, lineLength);
+		padLines(lines, columnLenths, types);
+		for(int i = 0; i < lines.size(); i++) {
+			stream.println(String.join(PADDING_STRING, lines.get(i)));
+			if (i == 0)
+				printSeparatorLine(stream, lineLength);
+		}
 		printSeparatorLine(stream, lineLength);
-		while (result.next())
-			printRow(stream, result, columnLenths, lineLength);
+	}
+
+	private static void padLines(	List<String[]> lines, 
+									int[] lengths, 
+									int[] types) 
+	{
+		for (String[] line : lines)
+    		for (int i = 0; i < lengths.length; i++) {
+    			String format = "";
+    			if (isLeftAligned(types[i]))
+    				format = String.format("%%-%ds", lengths[i]);
+    			else
+    				format = String.format("%%%ds", lengths[i]);
+    			line[i] = String.format(format, line[i]);
+    		}
+	}
+
+	private static void addRows(List<String[]> lines, ResultSet result, int[] types) 
+			throws SQLException {
+		int columnCount = result.getMetaData().getColumnCount();
+		while (result.next()) {
+			String[] line = new String[columnCount];
+			for (int i = 0; i < columnCount; i++) {
+				line[i] = formatValue(result, i+1, types[i]);
+			}
+			lines.add(line);
+		}
+	}
+
+	private static int[] getTypes(ResultSet result)
+			throws SQLException {
+		int columnCount = result.getMetaData().getColumnCount();
+		int[] types = new int[columnCount];
+		for (int i = 0; i < columnCount; i++)
+			types[i] = result.getMetaData().getColumnType(i + 1);
+		return types;
 	}
 
 	private static void printSeparatorLine(PrintStream stream, int length) {
@@ -51,44 +96,41 @@ public class QueryPrinter {
 		lineLength += (columnLenths.length - 1) * COLUMN_PADDING;
 		return lineLength;
 	}
-
-	private static void printHeader(PrintStream stream,
-			ResultSetMetaData metaData, int[] columnLenths, int lineLength)
+	
+	private static String[] getColumnNames(ResultSetMetaData metaData) 
 			throws SQLException {
-		StringBuilder sb = new StringBuilder(lineLength);
-		for (int i = 0; i < columnLenths.length; i++) {
-			String format = String.format("%%-%ds", columnLenths[i]);
-			sb.append(String.format(format, metaData.getColumnLabel(i + 1)));
-			if (i < columnLenths.length - 1)
-				sb.append(PADDING_STRING);
-		}
-		stream.println(sb);
+		String[] names = new String[metaData.getColumnCount()];
+		for (int i = 0; i < names.length; i++)
+			names[i] = metaData.getColumnLabel(i + 1);
+		return names;
 	}
-
-	private static void printRow(PrintStream stream, ResultSet row,
-			int[] columnLenths, int lineLength) throws SQLException {
-		ResultSetMetaData metaData = row.getMetaData();
-		StringBuilder sb = new StringBuilder(lineLength);
-		for (int i = 0; i < columnLenths.length; i++) {
-			sb.append(formatValue(row, 
-								  i + 1, 
-								  metaData.getColumnType(i + 1),
-								  columnLenths[i]));
-			if (i < columnLenths.length - 1)
-				sb.append(PADDING_STRING);
-		}
-		stream.println(sb);
-	}
-
-	private static String formatValue(ResultSet row, int columnIndex,
-			int columnType, int columnLength) throws SQLException {
-		String format;
-		switch (columnType) {
+	
+	private static boolean isLeftAligned(int type) {
+		switch (type) {
     		case Types.INTEGER:
     		case Types.TINYINT:
     		case Types.BIGINT:
     		case Types.SMALLINT:
-    			format = String.format("%%%dd", columnLength);
+    		case Types.DECIMAL:
+    		case Types.FLOAT:
+    		case Types.DOUBLE:
+    		case Types.NUMERIC:
+    		case Types.REAL:
+    			return false;
+    		default:
+    			return true;
+		}
+	}
+
+	private static String formatValue(ResultSet row, int columnIndex, int type) 
+			throws SQLException {
+		String format;
+		switch (type) {
+    		case Types.INTEGER:
+    		case Types.TINYINT:
+    		case Types.BIGINT:
+    		case Types.SMALLINT:
+    			format = "%d";
     			break;
     		case Types.DECIMAL:
     		case Types.FLOAT:
@@ -96,10 +138,10 @@ public class QueryPrinter {
     		case Types.NUMERIC:
     		case Types.REAL:
     			int precision = row.getMetaData().getPrecision(columnIndex);
-    			format = String.format("%%%d.%df", columnLength, precision);
+    			format = String.format("%%.%df", precision);
     			break;
     		default:
-    			format = String.format("%%-%ds", columnLength);
+    			format = "%s";
     			break;
 		}
 		Object value = row.getObject(columnIndex);
@@ -119,15 +161,13 @@ public class QueryPrinter {
 		printResult(result, System.out);
 	}
 
-	private static int[] getColumnLengths(ResultSetMetaData metaData)
+	private static int[] getColumnLengths(List<String[]> lines)
 			throws SQLException {
-		int columnCount = metaData.getColumnCount();
-		int[] lengths = new int[columnCount];
-		for (int i = 1; i <= columnCount; i++) {
-			int displaySize = metaData.getColumnDisplaySize(i);
-			int nameSize = metaData.getColumnLabel(i).length();
-			lengths[i - 1] = Math.max(displaySize, nameSize);
-		}
+		int[] lengths = new int[lines.get(0).length];
+		for (String[] line : lines)
+    		for (int i = 0; i < line.length; i++) {
+    			lengths[i] = Math.max(lengths[i], line[i].length());
+    		}
 		return lengths;
 	}
 }

@@ -25,7 +25,7 @@ public class Person {
 	public Person(String _firstName, String _name, String _address) {
 		this.setFirstName(_firstName);
 		this.setLastName(_name);
-		this.address = _address;
+		this.setAddress(_address);
 	}
 
 	public Person() {
@@ -56,4 +56,26 @@ public class Person {
 		this.lastName = name;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || !(obj instanceof Person))
+			return false;
+		Person otherPerson = (Person)obj;
+		if (id != 0 && otherPerson.getId() != 0)
+			return id == otherPerson.getId();
+		return super.equals(obj);
+	}
+	
+	@Override
+	public int hashCode() {
+		return id != 0 ? id : super.hashCode();
+	}
 }

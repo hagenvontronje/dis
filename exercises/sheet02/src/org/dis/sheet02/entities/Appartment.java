@@ -23,6 +23,29 @@ public class Appartment extends Estate {
 	@Column(name = "BUILT_IN_KITCHEN", nullable=false)
 	private int builtInKitchen;
 
+
+	public Appartment() {}
+	
+	public Appartment(	String city, 
+					String postalCode, 
+					String street, 
+					String streetNumber, 
+					double squareArea,
+					int floor,
+					double rent,
+					int rooms,
+					boolean hasBalcony,
+					boolean hasBuildInKitchen,
+					int managerId)
+	{
+		super(city, postalCode, street, streetNumber, squareArea, managerId);
+		this.floor = floor;
+		this.rent = rent;
+		this.rooms = rooms;
+		hasBalcony(hasBalcony);
+		hasBuiltInKitchen(hasBuildInKitchen);
+	}
+	
 	public int getFloor() {
 		return floor;
 	}

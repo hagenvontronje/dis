@@ -29,6 +29,23 @@ public abstract class Estate {
 	@ManyToOne(targetEntity=EstateAgent.class, optional=false)
 	private int managerId;
 
+	public Estate() {}
+	
+	public Estate(	String city, 
+					String postalCode, 
+					String street, 
+					String streetNumber, 
+					double squareArea, 
+					int managerId)
+	{
+		this.city = city;
+		this.postalCode = postalCode;
+		this.street = street;
+		this.streetNumber = streetNumber;
+		this.squareArea = squareArea;
+		this.managerId = managerId;
+	}
+	
 	public int getId() {
 		return id;
 	}

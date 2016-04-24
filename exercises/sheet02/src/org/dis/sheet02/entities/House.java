@@ -16,29 +16,48 @@ public class House extends Estate {
 
 	@Column(name = "GARDEN", nullable=false)
 	private int garden;
+	
+	
+	public House() {}
+	
+	public House(	String city, 
+					String postalCode, 
+					String street, 
+					String streetNumber, 
+					double squareArea,
+					int floors,
+					double price,
+					boolean garden,
+					int managerId)
+	{
+		super(city, postalCode, street, streetNumber, squareArea, managerId);
+		this.floors = floors;
+		this.price = price;
+		hasGarden(garden);
+	}
 
 	public int getFloors() {
 		return floors;
 	}
 
-	public void setFloors(int _floors) {
-		this.floors = _floors;
+	public void setFloors(int floors) {
+		this.floors = floors;
 	}
 
 	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double _price) {
-		this.price = _price;
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 	public boolean hasGarden() {
 		return garden == 1;
 	}
 
-	public void hasGarden(boolean _garden) {
-		this.garden = _garden ? 1 : 0;
+	public void hasGarden(boolean garden) {
+		this.garden = garden ? 1 : 0;
 	}
 
 }

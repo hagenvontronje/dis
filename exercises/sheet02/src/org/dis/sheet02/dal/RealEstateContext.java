@@ -9,6 +9,13 @@ import org.dis.sheet02.entities.Person;
 import org.dis.sheet02.entities.PurchaseContract;
 import org.dis.sheet02.entities.TenancyContract;
 
+/**
+ * Database context for real estate database.
+ * 
+ * @author Burkhart, Julian
+ * @author Elshinawi, Ahmed
+ *
+ */
 public class RealEstateContext extends DbContext {
 
 	public RealEstateContext() {
