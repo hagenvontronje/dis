@@ -14,12 +14,17 @@ public class QueryFactory<TEntity> extends BaseSqlFactory<TEntity> {
 	public String buildUpdateStatement(TEntity entity) {
 		ColumnDef[] columns = getInsertableColumns();
 		String[] values = formatColumnValues(entity, columns);
+		ColumnDef idColumn = getIdColumn();
+		String idValue = formatColumnValues(entity, new ColumnDef[] {idColumn})[0];
 		String[] setFragments = new String[columns.length];
 		for (int i = 0; i < columns.length; i++)
 			setFragments[i] = String.format("%s = %s",
 					columns[i].getColumnName(), values[i]);
-		String query = String.format("UPDATE %s SET \n\t%s",
-				getTableName(getEntityType()), String.join(",\n\t", setFragments));
+		String query = String.format("UPDATE %s SET \n\t%s\n\tWHERE %s = %s",
+				getTableName(getEntityType()), 
+				String.join(",\n\t", setFragments),
+				idColumn.getColumnName(),
+				idValue);
 		return query;
 	}
 

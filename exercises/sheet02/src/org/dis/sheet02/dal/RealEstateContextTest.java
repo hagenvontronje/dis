@@ -114,6 +114,7 @@ public class RealEstateContextTest {
 			all = houses.getAll();
 			assertEquals("Wrong number of entities after delete.", count - 1, all.size());
 			
+			agents.delete(agent);
 			ctx.Close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -160,7 +161,8 @@ public class RealEstateContextTest {
 			appartments.delete(a2);
 			all = appartments.getAll();
 			assertEquals("Wrong number of entities after delete.", count - 1, all.size());
-			
+
+			agents.delete(agent);
 			ctx.Close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
