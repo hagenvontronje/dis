@@ -103,13 +103,14 @@ public abstract class Estate {
 	}
 
 	public String getDisplayName() {
-		return String.format("%s %s",
+		return String.format("%s, %s (%s)",
 				String.format("%s %s", 
 						getCity(),
 						getPostalCode()).trim(),
 				String.format("%s %s",
 						getStreet(),
-						getStreetNumber()).trim());
+						getStreetNumber()).trim(),
+				this instanceof House ? "H" : "A");
 	}
 
 }

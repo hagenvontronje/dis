@@ -26,7 +26,8 @@ public class MainWindow extends Window {
 	}
 
 	private void InitializeComponents() {
-		setTitle("Estate Management");
+		setTitle(String.format(	"Estate Management (User: %s)", 
+								LoginService.User.getName()));
 		setSizeRequest(800, 600);
 
 		userManagementView = new UserManagementView();

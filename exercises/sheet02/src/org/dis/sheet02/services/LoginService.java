@@ -16,7 +16,7 @@ public class LoginService extends BaseService {
 			return false;
 		if (Constants.ROOT_USER.equals(username)) {
 			if (Constants.ROOT_PASSWORD.equals(password)) {
-				User = new EstateAgent();
+				User = new EstateAgent(Constants.ROOT_USER, "", "", "");
 				return true;
 			}
 			return false;
