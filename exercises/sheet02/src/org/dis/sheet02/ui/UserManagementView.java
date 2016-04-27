@@ -62,7 +62,7 @@ public class UserManagementView extends HBox {
 	private void initializeComponents() {
 		
 		listAgents = new SingleColumnList<>(
-				"Name", 
+				"Users", 
 				(e) -> e.getName(),
 				(e) -> displayAgent(e));
 		add(listAgents);
