@@ -74,4 +74,10 @@ public class Contract {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public String getDisplayName() {
+		return String.format("%d (%s)",
+				contractNumber,
+				this instanceof TenancyContract ? "Tenancy" : "Purchase");
+	}
 }

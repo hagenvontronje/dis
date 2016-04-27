@@ -12,6 +12,7 @@ public class MainWindow extends Window {
 
 	private UserManagementView userManagementView;
 	private EstatesView estatesView;
+	private ContractsView contractsView;
 
 	public MainWindow() {
 		InitializeComponents();
@@ -31,19 +32,20 @@ public class MainWindow extends Window {
 		setSizeRequest(800, 600);
 
 		userManagementView = new UserManagementView();
+		estatesView = new EstatesView();
+		contractsView = new ContractsView();
 
 		Notebook top = new Notebook();
-		estatesView = new EstatesView();
 		top.appendPage(estatesView, new Label("Estates"));
 		// top.appendPage(new Label("Persons content"), new Label("Persons"));
-		// top.appendPage(new Label("Contracts content"), new
-		// Label("Contracts"));
+		top.appendPage(contractsView, new Label("Contracts"));
 		top.appendPage(userManagementView, new Label("Users"));
 
 		add(top);
 
 		boolean isRoot = LoginService.User.getId() == 0;
 		estatesView.setSensitive(!isRoot);
+		contractsView.setSensitive(!isRoot);
 		userManagementView.setSensitive(isRoot);
 	}
 }

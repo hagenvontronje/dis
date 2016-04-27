@@ -24,9 +24,9 @@ public class EstatesView extends HBox {
 	private RealEstateContext context;
 	private EntitySet<House> houses;
 	private Frame detailsFrame;
-	private EntitySet<Appartment> appartments;
+	private EntitySet<Appartment> apartments;
 	private HouseView houseView;
-	private AppartmentView appartmentView;
+	private ApartmentView appartmentView;
 	
 	public EstatesView() {
 		super(false, 10);
@@ -40,7 +40,7 @@ public class EstatesView extends HBox {
 		if (context == null) {
 			context = new RealEstateContext();
 			houses = context.getHouses();
-			appartments = context.getAppartments();
+			apartments = context.getAppartments();
 		}
 	}
 	
@@ -49,7 +49,7 @@ public class EstatesView extends HBox {
 			ensureContextIsCreated();
 			List<Estate> allEstates = new ArrayList<>();
 			allEstates.addAll(houses.getAll());
-			allEstates.addAll(appartments.getAll());
+			allEstates.addAll(apartments.getAll());
 			estatesList.setData(allEstates);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -58,7 +58,7 @@ public class EstatesView extends HBox {
 
 	private void initializeComponents() {
 		houseView = new HouseView(() -> loadEstates());
-		appartmentView = new AppartmentView(() -> loadEstates());
+		appartmentView = new ApartmentView(() -> loadEstates());
 		
 		estatesList = new SingleColumnList<Estate>(
 				"Estates", 
@@ -70,7 +70,7 @@ public class EstatesView extends HBox {
 				() -> displayEstate(new House()));
 		newHouse.setSizeRequest(120, 0);
 		
-		Button newAppartment = new LambdaButton("New Appartment", 
+		Button newAppartment = new LambdaButton("New Apartment", 
 				() -> displayEstate(new Appartment()));
 		newAppartment.setSizeRequest(120, 0);
 		
@@ -102,7 +102,7 @@ public class EstatesView extends HBox {
 		else if (estate instanceof Appartment) {
 			appartmentView.setEntity((Appartment)estate);
 			setView(appartmentView);
-			detailsFrame.setLabel("Appartment");
+			detailsFrame.setLabel("Apartment");
 		}
 	}
 

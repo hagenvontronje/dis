@@ -10,7 +10,7 @@ import org.gnome.gtk.CheckButton;
 import org.gnome.gtk.SpinButton;
 import org.gnome.gtk.VBox;
 
-public class AppartmentView extends BaseEstateDetailsView<Appartment> {
+public class ApartmentView extends BaseEstateDetailsView<Appartment> {
 
 	private SpinButton entryFloor;
 	private SpinButton entryRooms;
@@ -18,7 +18,7 @@ public class AppartmentView extends BaseEstateDetailsView<Appartment> {
 	private CheckButton entryHasBalcony;
 	private CheckButton entryHasKitchen;
 	
-	public AppartmentView(Runnable saveDeleteCallback) {
+	public ApartmentView(Runnable saveDeleteCallback) {
 		super(saveDeleteCallback, () -> new Appartment());
 		
 	}

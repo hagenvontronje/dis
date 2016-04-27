@@ -26,13 +26,45 @@ public class TenancyContract extends Contract {
 			int personId, int appartmentId, Date startDate, int duration,
 			double additionalCosts) {
 		super(contractNumber, date, place, personId);
-		this.startDate = startDate;
-		this.duration = duration;
-		this.additionalCosts = additionalCosts;
-		this.appartmentId = appartmentId;
+		this.setStartDate(startDate);
+		this.setDuration(duration);
+		this.setAdditionalCosts(additionalCosts);
+		this.setAppartmentId(appartmentId);
 	}
 
 	public TenancyContract() {
 
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	public double getAdditionalCosts() {
+		return additionalCosts;
+	}
+
+	public void setAdditionalCosts(double additionalCosts) {
+		this.additionalCosts = additionalCosts;
+	}
+
+	public int getAppartmentId() {
+		return appartmentId;
+	}
+
+	public void setAppartmentId(int appartmentId) {
+		this.appartmentId = appartmentId;
 	}
 }
