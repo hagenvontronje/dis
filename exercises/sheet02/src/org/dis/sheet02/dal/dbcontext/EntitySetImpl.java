@@ -11,6 +11,12 @@ import org.dis.sheet02.dal.QueryPrinter;
 import org.dis.sheet02.dal.factories.EntityFactory;
 import org.dis.sheet02.dal.factories.EntityInfo;
 import org.dis.sheet02.dal.factories.QueryFactory;
+import org.dis.sheet02.entities.Appartment;
+import org.dis.sheet02.entities.House;
+import org.dis.sheet02.entities.PurchaseContract;
+import org.dis.sheet02.entities.TenancyContract;
+import org.dis.sheet02.services.LoginService;
+import org.dis.sheet02.ui.ApartmentView;
 
 /**
  * An abstraction for a database table.
@@ -83,6 +89,18 @@ class EntitySetImpl<TEntity>
 	@Override
 	public List<TEntity> getAll() throws SQLException {
 		String selectStatement = queryFactory.buildSelectAllStatement();
+		if (LoginService.User != null && LoginService.User.getId() >= 0) {
+			if (queryFactory.getEntityType() == House.class 
+					||queryFactory.getEntityType() == Appartment.class) {
+				selectStatement += " WHERE ESTATE_AGENT_ID = " + LoginService.User.getId(); 
+			}
+			else if (queryFactory.getEntityType() == PurchaseContract.class) {
+				selectStatement += " WHERE HOUSE_ID IN (SELECT ID FROM HOUSE WHERE ESTATE_AGENT_ID = " + LoginService.User.getId() + ")";
+			}
+			else if (queryFactory.getEntityType() == TenancyContract.class) {
+				selectStatement += " WHERE APPARTMENT_ID IN (SELECT ID FROM APPARTMENT WHERE ESTATE_AGENT_ID = " + LoginService.User.getId() + ")";
+			}
+		}
 		List<TEntity> entities = null;
 		try {
 			System.out.println(selectStatement);
