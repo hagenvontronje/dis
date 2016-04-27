@@ -102,4 +102,14 @@ public abstract class Estate {
 		this.managerId = estateAgentId;
 	}
 
+	public String getDisplayName() {
+		return String.format("%s %s",
+				String.format("%s %s", 
+						getCity(),
+						getPostalCode()).trim(),
+				String.format("%s %s",
+						getStreet(),
+						getStreetNumber()).trim());
+	}
+
 }

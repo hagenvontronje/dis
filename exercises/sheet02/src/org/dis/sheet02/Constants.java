@@ -8,7 +8,10 @@ package org.dis.sheet02;
  *
  */
 public final class Constants {
+	
+	/** The default administrator. */
+	public static final String ROOT_USER = "root";
 
 	/** The password to use for access to administrative functions. */
-	public static final String ROOT_PASSWORD = "root";
+	public static final String ROOT_PASSWORD = "";
 }

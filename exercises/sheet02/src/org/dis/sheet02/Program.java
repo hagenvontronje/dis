@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import org.dis.sheet02.dal.DB2ConnectionManager;
 import org.dis.sheet02.dal.QueryPrinter;
 import org.dis.sheet02.dal.RealEstateContext;
+import org.dis.sheet02.entities.EstateAgent;
+import org.dis.sheet02.ui.LoginDialog;
+import org.gnome.gtk.Gtk;
 
 /**
  * The entry point class.
@@ -18,17 +21,22 @@ import org.dis.sheet02.dal.RealEstateContext;
 public class Program {
 
 	public static void main(String[] args) {
-		try {
-			DB2ConnectionManager manager = DB2ConnectionManager.getInstance();
-			Connection connection = manager.getConnection();
-			
-			printDbVersion(connection);
-			createSchema(connection);
-			
-			connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		Gtk.init(args);
+		LoginDialog login = new LoginDialog();
+		login.showAll();
+        Gtk.main();
+        
+//		try {
+//			DB2ConnectionManager manager = DB2ConnectionManager.getInstance();
+//			Connection connection = manager.getConnection();
+//			
+//			printDbVersion(connection);
+//			createSchema(connection);
+//			
+//			connection.close();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	private static void createSchema(Connection connection) throws SQLException {

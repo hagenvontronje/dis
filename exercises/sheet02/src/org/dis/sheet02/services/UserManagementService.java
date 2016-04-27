@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.dis.sheet02.Constants;
-import org.dis.sheet02.dal.RealEstateContext;
 import org.dis.sheet02.entities.EstateAgent;
 
 /**
@@ -14,21 +13,10 @@ import org.dis.sheet02.entities.EstateAgent;
  * @author Elshinawi, Ahmed
  *
  */
-public class UserManagementService {
+public class UserManagementService extends BaseService {
 
 	/** if <code>true</code> all management methods are locked. */
 	private boolean isLocked = true;
-
-	/** The database context to use. */
-	private RealEstateContext dbcontext = null;
-
-	/**
-	 * Creates a new database context, if it does not yet exist.
-	 */
-	private void ensureContextIsCreated() {
-		if (dbcontext == null)
-			dbcontext = new RealEstateContext();
-	}
 
 	/**
 	 * Retrieves all estate agents from the database.
