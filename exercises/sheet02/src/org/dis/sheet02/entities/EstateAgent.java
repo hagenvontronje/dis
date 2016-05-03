@@ -74,4 +74,21 @@ public class EstateAgent {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || !(obj instanceof EstateAgent))
+			return false;
+		EstateAgent agent = (EstateAgent) obj;
+		if (this.getId() <= 0 || agent.getId() <= 0)
+			return super.equals(obj);
+		return (this.getId() == agent.getId());
+	}
+	
+	@Override
+	public int hashCode() {
+		if (id > 0)
+			return id; 
+		return super.hashCode();
+	}
 }

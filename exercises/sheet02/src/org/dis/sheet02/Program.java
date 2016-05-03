@@ -4,11 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import org.dis.sheet02.dal.DB2ConnectionManager;
 import org.dis.sheet02.dal.QueryPrinter;
 import org.dis.sheet02.dal.RealEstateContext;
-import org.dis.sheet02.entities.EstateAgent;
-import org.dis.sheet02.ui.LoginDialog;
+import org.dis.sheet02.ui.JLoginDialog;
+import org.dis.sheet02.ui.MainWindow;
 import org.gnome.gtk.Gtk;
 
 /**
@@ -16,15 +15,34 @@ import org.gnome.gtk.Gtk;
  * 
  * @author Burkhart, Julian
  * @author Elshinawi, Ahmed
+ * @author Silvestrim, Filipe
  *
  */
 public class Program {
 
 	public static void main(String[] args) {
-		Gtk.init(args);
-		LoginDialog login = new LoginDialog();
-		login.showAll();
-        Gtk.main();
+		JLoginDialog jlogin = new JLoginDialog();
+		try {
+//			UIManager.setLookAndFeel(new GTKLookAndFeel());
+			javax.swing.SwingUtilities.invokeAndWait(() -> jlogin.setVisible(true));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+//			while (jlogin.isVisible())
+//				try {
+//					Thread.sleep(100);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//			if (jlogin.wasSuccessful()) {
+//				Gtk.init(args);
+//				MainWindow oldMainWindow = new MainWindow();
+//				oldMainWindow.showAll();
+//				Gtk.main();
+//			}
+		}
+		
         
 //		try {
 //			DB2ConnectionManager manager = DB2ConnectionManager.getInstance();
