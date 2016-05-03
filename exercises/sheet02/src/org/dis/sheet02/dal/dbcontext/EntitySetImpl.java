@@ -16,7 +16,6 @@ import org.dis.sheet02.entities.House;
 import org.dis.sheet02.entities.PurchaseContract;
 import org.dis.sheet02.entities.TenancyContract;
 import org.dis.sheet02.services.LoginService;
-import org.dis.sheet02.ui.ApartmentView;
 
 /**
  * An abstraction for a database table.
@@ -138,6 +137,9 @@ class EntitySetImpl<TEntity>
 			if (statement.getUpdateCount() == 0)
 				throw new SQLException("No rows were deleted.");
 		} catch (Exception e) {
+			if (e instanceof SQLException && ((SQLException)e).getErrorCode() == -532) {
+				throw new DependentRecordsException(e);
+			}
 			throw new SQLException(e);
 		}
 	}
