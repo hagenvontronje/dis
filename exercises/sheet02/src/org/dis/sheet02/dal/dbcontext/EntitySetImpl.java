@@ -16,7 +16,6 @@ import org.dis.sheet02.entities.House;
 import org.dis.sheet02.entities.PurchaseContract;
 import org.dis.sheet02.entities.TenancyContract;
 import org.dis.sheet02.services.LoginService;
-import org.dis.sheet02.ui.ApartmentView;
 
 /**
  * An abstraction for a database table.

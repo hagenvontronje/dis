@@ -4,10 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import org.dis.sheet02.dal.DB2ConnectionManager;
 import org.dis.sheet02.dal.QueryPrinter;
 import org.dis.sheet02.dal.RealEstateContext;
-import org.dis.sheet02.entities.EstateAgent;
 import org.dis.sheet02.ui.LoginDialog;
 import org.gnome.gtk.Gtk;
 
