@@ -2,10 +2,13 @@ package org.dis.sheet02.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "HOUSE")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class House extends Estate {
 
 	@Column(name = "FLOORS", nullable=false)

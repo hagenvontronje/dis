@@ -4,21 +4,23 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "PURCHASE_CONTRACT")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class PurchaseContract extends Contract {
 
 	@Column(name = "NUMBER_OF_INSTALLMENTS", nullable=false)
 	private int numberOfInstallments;
 
-	@Column(name = "INTEREST_RATE", nullable=false, scale=10, precision=4)
+	@Column(name = "INTEREST_RATE", nullable=false)
 	private double interestRate;
 
 	@Column(name = "HOUSE_ID")
-	@ManyToOne(targetEntity=House.class, optional=false)
+//	@ManyToOne(targetEntity=House.class, optional=false)
 	private int houseId;
 
 	public PurchaseContract(int contractNumber, Date date, String place,

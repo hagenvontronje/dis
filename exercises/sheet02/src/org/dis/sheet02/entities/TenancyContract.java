@@ -3,10 +3,14 @@ package org.dis.sheet02.entities;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+@Entity
 @Table(name = "TENANCY_CONTRACT")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class TenancyContract extends Contract {
 
 	@Column(name = "START_DATE", nullable=false)
@@ -19,7 +23,7 @@ public class TenancyContract extends Contract {
 	private double additionalCosts;
 
 	@Column(name = "APPARTMENT_ID")
-	@ManyToOne(targetEntity=Appartment.class, optional=false)
+//	@ManyToOne(targetEntity=Appartment.class, optional=false)
 	private int appartmentId;
 
 	public TenancyContract(int contractNumber, Date date, String place,

@@ -1,12 +1,21 @@
 package org.dis.sheet02.entities;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "ESTATE")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Estate {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private int id = -1;
 
@@ -22,11 +31,11 @@ public abstract class Estate {
 	@Column(name = "STREET_NUMBER", nullable=false)
 	private String streetNumber;
 
-	@Column(name = "SQUARE_AREA", nullable=false, scale=10, precision=2)
+	@Column(name = "SQUARE_AREA", nullable=false)
 	private double squareArea;
 
 	@Column(name = "ESTATE_AGENT_ID")
-	@ManyToOne(targetEntity=EstateAgent.class, optional=false)
+//	@ManyToOne(targetEntity=EstateAgent.class, optional=false)
 	private int managerId;
 
 	public Estate() {}

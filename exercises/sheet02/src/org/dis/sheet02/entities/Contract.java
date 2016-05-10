@@ -3,11 +3,20 @@ package org.dis.sheet02.entities;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
-public class Contract {
+@Entity
+@Table(name = "CONTRACT")
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Contract {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
 	private int id;
 	
@@ -21,7 +30,7 @@ public class Contract {
 	private String place;
 
 	@Column(name = "PERSON_ID", nullable=false)
-	@ManyToOne(targetEntity=Person.class, optional=false)
+//	@ManyToOne(targetEntity=Person.class, optional=false)
 	private int personId;
 
 	public Contract() {

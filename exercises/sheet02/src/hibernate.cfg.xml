@@ -21,6 +21,14 @@
 		<!-- Echo all executed SQL to stdout -->
 		<property name="show_sql">true</property>
 		<!-- Drop and re-create the database schema on startup -->
-		<property name="hbm2ddl.auto">create</property>
+<!-- 		<property name="hbm2ddl.auto">update</property> -->
+        <mapping class="org.dis.sheet02.entities.EstateAgent"/>
+        <mapping class="org.dis.sheet02.entities.Person"/>
+        <mapping class="org.dis.sheet02.entities.House"/>
+        <mapping class="org.dis.sheet02.entities.Appartment"/>
+        <mapping class="org.dis.sheet02.entities.Estate"/>
+        <mapping class="org.dis.sheet02.entities.Contract"/>
+        <mapping class="org.dis.sheet02.entities.TenancyContract"/>
+        <mapping class="org.dis.sheet02.entities.PurchaseContract"/>
 	</session-factory>
 </hibernate-configuration>
