@@ -7,6 +7,7 @@ import org.dis.sheet02.entities.Apartment;
 import org.dis.sheet02.ui.base.AlignedLabel;
 import org.gnome.gtk.Align;
 import org.gnome.gtk.CheckButton;
+import org.gnome.gtk.HBox;
 import org.gnome.gtk.SpinButton;
 import org.gnome.gtk.VBox;
 
@@ -26,13 +27,22 @@ public class ApartmentView extends BaseEstateDetailsView<Apartment> {
 	@Override
 	protected void addDetailsControls(VBox detailsbox) {
 
-		detailsbox.add(new AlignedLabel("Floor", Align.START));
-		detailsbox.add(entryFloor = new SpinButton(0, Double.MAX_VALUE, 1));
-		detailsbox.add(new AlignedLabel("Rooms", Align.START));
-		detailsbox.add(entryRooms = new SpinButton(0, Double.MAX_VALUE, 1));
+		HBox hbox = new HBox(true, 10);
+		hbox.add(new AlignedLabel("Floor", Align.START));
+		hbox.add(new AlignedLabel("Rooms", Align.START));
+		detailsbox.add(hbox);
+		
+		hbox = new HBox(true, 10);
+		hbox.add(entryFloor = new SpinButton(0, Double.MAX_VALUE, 1));
+		hbox.add(entryRooms = new SpinButton(0, Double.MAX_VALUE, 1));
+		detailsbox.add(hbox);
+		
 //		detailsbox.add(new AlignedLabel("Has Garden", Align.START));
-		detailsbox.add(entryHasBalcony = new CheckButton("Balcony"));
-		detailsbox.add(entryHasKitchen = new CheckButton("Kitchen"));
+		hbox = new HBox(true, 10);
+		hbox.add(entryHasBalcony = new CheckButton("Balcony"));
+		hbox.add(entryHasKitchen = new CheckButton("Kitchen"));
+		detailsbox.add(hbox);
+		
 		detailsbox.add(new AlignedLabel("Rent", Align.START));
 		detailsbox.add(entryRent = new SpinButton(0, Double.MAX_VALUE, 0.01));
 	}

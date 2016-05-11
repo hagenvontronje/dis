@@ -57,14 +57,27 @@ public abstract class BaseEstateDetailsView<TEntity extends Estate> extends HBox
 	private void initializeComponents() {
 		VBox detailsbox = new VBox(false, 5);
 		detailsbox.setAlignVertical(Align.START);
-		detailsbox.add(new AlignedLabel("City", Align.START));
-		detailsbox.add(entryCity = new Entry());
-		detailsbox.add(new AlignedLabel("Postal code", Align.START));
-		detailsbox.add(entryPostalCode = new Entry());
-		detailsbox.add(new AlignedLabel("Street", Align.START));
-		detailsbox.add(entryStreet = new Entry());
-		detailsbox.add(new AlignedLabel("Street number", Align.START));
-		detailsbox.add(entryStreetNumber = new Entry());
+		
+		HBox hbox = new HBox(true, 10);
+		hbox.add(new AlignedLabel("City", Align.START));
+		hbox.add(new AlignedLabel("Postal code", Align.START));
+		detailsbox.add(hbox);
+		
+		hbox = new HBox(true, 10);
+		hbox.add(entryCity = new Entry());
+		hbox.add(entryPostalCode = new Entry());
+		detailsbox.add(hbox);
+		
+		hbox = new HBox(true, 10);
+		hbox.add(new AlignedLabel("Street", Align.START));
+		hbox.add(new AlignedLabel("Street number", Align.START));
+		detailsbox.add(hbox);
+		
+		hbox = new HBox(true, 10);
+		hbox.add(entryStreet = new Entry());
+		hbox.add(entryStreetNumber = new Entry());
+		detailsbox.add(hbox);
+		
 		detailsbox.add(new AlignedLabel("Square area", Align.START));
 		detailsbox.add(entryArea = new SpinButton(0, Double.MAX_VALUE, 0.01));
 		

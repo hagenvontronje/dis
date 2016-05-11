@@ -48,6 +48,8 @@ public class EntityComboBox<TElement extends Estate> extends VBox {
 			@Override
 			public void onChanged(ComboBox source) {
 				final TreeIter row = source.getActiveIter();
+				if (row == null)
+					return;
                 final TElement backingValue = model.getValue(row, objectColumn);
                 try {
 					activatedHandler.accept(backingValue);

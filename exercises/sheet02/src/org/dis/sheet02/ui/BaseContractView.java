@@ -64,18 +64,38 @@ public abstract class BaseContractView<TEntity extends Contract> extends HBox {
 		ensureContextIsCreated();
 		VBox detailsbox = new VBox(false, 5);
 		detailsbox.setAlignVertical(Align.START);
-		detailsbox.add(new AlignedLabel("Contract Number", Align.START));
-		detailsbox.add(entryContractNumber = new SpinButton(1, Integer.MAX_VALUE, 1));
-		detailsbox.add(new AlignedLabel("Contract Date", Align.START));
-		detailsbox.add(entryDate = new Entry());
+		
+		HBox box = new HBox(true, 10);
+		box.add(new AlignedLabel("Contract Numbe", Align.START));
+		box.add(new AlignedLabel("Contract Date", Align.START));
+		detailsbox.add(box);
+		
+		box = new HBox(true, 10);
+		box.add(entryContractNumber = new SpinButton(1, Integer.MAX_VALUE, 1));
+		box.add(entryDate = new Entry());
+		detailsbox.add(box);
+		
 		detailsbox.add(new AlignedLabel("Place", Align.START));
 		detailsbox.add(entryPlace = new Entry());
-		detailsbox.add(new AlignedLabel("Person Firstname", Align.START));
-		detailsbox.add(entryPersonFirstName = new Entry());
-		detailsbox.add(new AlignedLabel("Person Lastname", Align.START));
-		detailsbox.add(entryPersonLastName = new Entry());
+		
+		box = new HBox(true, 10);
+		box.add(new AlignedLabel("Person Firstname", Align.START));
+		box.add(new AlignedLabel("Person Lastname", Align.START));
+		detailsbox.add(box);
+		
+		box = new HBox(true, 10);
+		box.add(entryPersonFirstName = new Entry());
+		box.add(entryPersonLastName = new Entry());
+		detailsbox.add(box);
+		
 		detailsbox.add(new AlignedLabel("Person Address", Align.START));
 		detailsbox.add(entryPersonAddress = new Entry());
+//		detailsbox.add(new AlignedLabel("Person Firstname", Align.START));
+//		detailsbox.add(entryPersonFirstName = new Entry());
+//		detailsbox.add(new AlignedLabel("Person Lastname", Align.START));
+//		detailsbox.add(entryPersonLastName = new Entry());
+//		detailsbox.add(new AlignedLabel("Person Address", Align.START));
+//		detailsbox.add(entryPersonAddress = new Entry());
 		
 		addDetailsControls(detailsbox, context);
 		

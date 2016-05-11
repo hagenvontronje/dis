@@ -29,7 +29,7 @@ public class MainWindow extends Window {
 	private void InitializeComponents() {
 		setTitle(String.format(	"Estate Management (User: %s)", 
 								LoginService.User.getName()));
-		setSizeRequest(800, 600);
+		setSizeRequest(300, 200);
 
 		userManagementView = new UserManagementView();
 		estatesView = new EstatesView();
