@@ -25,7 +25,7 @@
         <mapping class="org.dis.sheet02.entities.EstateAgent"/>
         <mapping class="org.dis.sheet02.entities.Person"/>
         <mapping class="org.dis.sheet02.entities.House"/>
-        <mapping class="org.dis.sheet02.entities.Appartment"/>
+        <mapping class="org.dis.sheet02.entities.Apartment"/>
         <mapping class="org.dis.sheet02.entities.Estate"/>
         <mapping class="org.dis.sheet02.entities.Contract"/>
         <mapping class="org.dis.sheet02.entities.TenancyContract"/>

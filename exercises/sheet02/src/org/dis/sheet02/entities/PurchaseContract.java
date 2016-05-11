@@ -2,14 +2,18 @@ package org.dis.sheet02.entities;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.dis.sheet02.services.LoginService;
-import org.hibernate.criterion.Criterion;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 
 @Entity
 @Table(name = "PURCHASE_CONTRACT")
@@ -21,18 +25,19 @@ public class PurchaseContract extends Contract {
 
 	@Column(name = "INTEREST_RATE", nullable=false)
 	private double interestRate;
-
-	@Column(name = "HOUSE_ID")
-//	@ManyToOne(targetEntity=House.class, optional=false)
-	private int houseId;
+	
+	@ManyToOne(targetEntity=House.class, optional=false, 
+			cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+	@JoinColumn(name="HOUSE_ID", nullable=false)
+	private House house;
 
 	public PurchaseContract(int contractNumber, Date date, String place,
-			int personId, int houseId, int numInstallments,
+			Person person, House house, int numInstallments,
 			double interestRate) {
-		super(contractNumber, date, place, personId);
+		super(contractNumber, date, place, person);
 		this.setNumberOfInstallments(numInstallments);
 		this.setInterestRate(interestRate);
-		this.setHouseId(houseId);
+		this.setHouse(house);
 	}
 
 	public PurchaseContract() {
@@ -55,19 +60,18 @@ public class PurchaseContract extends Contract {
 		this.interestRate = interestRate;
 	}
 
-	public int getHouseId() {
-		return houseId;
+	public House getHouse() {
+		return house;
 	}
 
-	public void setHouseId(int houseId) {
-		this.houseId = houseId;
+	public void setHouse(House house) {
+		this.house = house;
 	}
 
-
-	public static Criterion getUserRestriction() {
+	public static void addUserRestriction(Criteria baseCriteria) {
 		if (LoginService.User == null)
-			return null;
-		return null;
-		//Restrictions.eq("ESTATE_AGENT_ID", LoginService.User.getId())
+			return;
+		baseCriteria.createCriteria("house")
+					.add(Restrictions.eq("manager", LoginService.User));
 	}
 }

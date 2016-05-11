@@ -1,10 +1,16 @@
 package org.dis.sheet02.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -25,6 +31,10 @@ public class Person {
 	@Column(name = "ADDRESS", nullable=false)
 	private String address;
 
+	@OneToMany(mappedBy="person", orphanRemoval=true, 
+			fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	private List<Contract> contracts = new ArrayList<>();
+	
 	public Person(String _firstName, String _name, String _address) {
 		this.setFirstName(_firstName);
 		this.setLastName(_name);

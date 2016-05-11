@@ -3,14 +3,14 @@ package org.dis.sheet02.ui;
 import java.sql.SQLException;
 
 import org.dis.sheet02.dal.RealEstateContext;
-import org.dis.sheet02.entities.Appartment;
+import org.dis.sheet02.entities.Apartment;
 import org.dis.sheet02.ui.base.AlignedLabel;
 import org.gnome.gtk.Align;
 import org.gnome.gtk.CheckButton;
 import org.gnome.gtk.SpinButton;
 import org.gnome.gtk.VBox;
 
-public class ApartmentView extends BaseEstateDetailsView<Appartment> {
+public class ApartmentView extends BaseEstateDetailsView<Apartment> {
 
 	private SpinButton entryFloor;
 	private SpinButton entryRooms;
@@ -19,7 +19,7 @@ public class ApartmentView extends BaseEstateDetailsView<Appartment> {
 	private CheckButton entryHasKitchen;
 	
 	public ApartmentView(Runnable saveDeleteCallback) {
-		super(saveDeleteCallback, () -> new Appartment());
+		super(saveDeleteCallback, () -> new Apartment());
 		
 	}
 
@@ -38,19 +38,19 @@ public class ApartmentView extends BaseEstateDetailsView<Appartment> {
 	}
 
 	@Override
-	protected void deleteEntity(Appartment entity, RealEstateContext ctx)
+	protected void deleteEntity(Apartment entity, RealEstateContext ctx)
 			throws SQLException {
 		ctx.getAppartments().delete(entity);
 	}
 
 	@Override
-	protected Appartment saveEntity(Appartment entity, RealEstateContext ctx)
+	protected Apartment saveEntity(Apartment entity, RealEstateContext ctx)
 			throws SQLException {
 		return ctx.getAppartments().save(entity);
 	}
 
 	@Override
-	protected void saveInputToCurrentCustom(Appartment entity) {
+	protected void saveInputToCurrentCustom(Apartment entity) {
 		entity.setFloor((int)entryFloor.getValue());
 		entity.setRooms((int)entryRooms.getValue());
 		entity.hasBalcony(entryHasBalcony.getActive());
@@ -59,7 +59,7 @@ public class ApartmentView extends BaseEstateDetailsView<Appartment> {
 	}
 
 	@Override
-	protected void setEntityCustom(Appartment house) {
+	protected void setEntityCustom(Apartment house) {
 		entryFloor.setValue(house.getFloor());
 		entryRooms.setValue(house.getRooms());
 		entryHasBalcony.setActive(house.hasBalcony());

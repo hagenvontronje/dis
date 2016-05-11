@@ -2,6 +2,7 @@ package org.dis.sheet02.entities;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -29,19 +32,21 @@ public abstract class Contract {
 	@Column(name = "PLACE", nullable=false)
 	private String place;
 
-	@Column(name = "PERSON_ID", nullable=false)
-//	@ManyToOne(targetEntity=Person.class, optional=false)
-	private int personId;
+
+	@ManyToOne(targetEntity=Person.class, optional=false, 
+			cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+	@JoinColumn(name="PERSON_ID", nullable=false)
+	private Person person;
 
 	public Contract() {
 
 	}
 
-	public Contract(int contractNumber, Date date, String place, int personID) {
+	public Contract(int contractNumber, Date date, String place, Person person) {
 		this.contractNumber = contractNumber;
 		this.date = date;
 		this.place = place;
-		this.personId = personID;
+		this.person = person;
 	}
 
 	public int getContractNumber() {
@@ -68,12 +73,12 @@ public abstract class Contract {
 		this.place = place;
 	}
 
-	public int getPersonId() {
-		return personId;
+	public Person getPerson() {
+		return person;
 	}
 
-	public void setPersonId(int personId) {
-		this.personId = personId;
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 
 	public int getId() {

@@ -2,7 +2,7 @@ package org.dis.sheet02.dal;
 
 import org.dis.sheet02.dal.dbcontext.DbContextImpl;
 import org.dis.sheet02.dal.dbcontext.EntitySet;
-import org.dis.sheet02.entities.Appartment;
+import org.dis.sheet02.entities.Apartment;
 import org.dis.sheet02.entities.EstateAgent;
 import org.dis.sheet02.entities.House;
 import org.dis.sheet02.entities.Person;
@@ -21,7 +21,7 @@ public class RealEstateContextImpl extends DbContextImpl implements RealEstateCo
 	public RealEstateContextImpl() {
 		super(	Person.class, 
 				House.class, 
-				Appartment.class,
+				Apartment.class,
 				EstateAgent.class,
 				TenancyContract.class,
 				PurchaseContract.class);
@@ -47,8 +47,8 @@ public class RealEstateContextImpl extends DbContextImpl implements RealEstateCo
 	 * @see org.dis.sheet02.dal.RealEstateContext#getAppartments()
 	 */
 	@Override
-	public EntitySet<Appartment> getAppartments() {
-		return getEntitySet(Appartment.class);
+	public EntitySet<Apartment> getAppartments() {
+		return getEntitySet(Apartment.class);
 	}
 
 	/* (non-Javadoc)

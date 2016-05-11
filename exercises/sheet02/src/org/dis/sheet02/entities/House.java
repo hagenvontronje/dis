@@ -1,14 +1,16 @@
 package org.dis.sheet02.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.dis.sheet02.services.LoginService;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Example;
 
 @Entity
 @Table(name = "HOUSE")
@@ -24,6 +26,9 @@ public class House extends Estate {
 	@Column(name = "GARDEN", nullable=false)
 	private int garden;
 	
+	@OneToMany(mappedBy="house", orphanRemoval=true, 
+			fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	List<PurchaseContract> purchases = new ArrayList<>();
 	
 	public House() {}
 	

@@ -2,14 +2,18 @@ package org.dis.sheet02.entities;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.dis.sheet02.services.LoginService;
-import org.hibernate.criterion.Criterion;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 
 @Entity
 @Table(name = "TENANCY_CONTRACT")
@@ -25,18 +29,20 @@ public class TenancyContract extends Contract {
 	@Column(name = "ADDITIONAL_COSTS", nullable=false, scale=10, precision=2)
 	private double additionalCosts;
 
-	@Column(name = "APPARTMENT_ID")
-//	@ManyToOne(targetEntity=Appartment.class, optional=false)
-	private int appartmentId;
+
+	@ManyToOne(targetEntity=Apartment.class, optional=false, 
+			cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+	@JoinColumn(name="APARTMENT_ID", nullable=false)
+	private Apartment apartment;
 
 	public TenancyContract(int contractNumber, Date date, String place,
-			int personId, int appartmentId, Date startDate, int duration,
+			Person person, Apartment appartment, Date startDate, int duration,
 			double additionalCosts) {
-		super(contractNumber, date, place, personId);
+		super(contractNumber, date, place, person);
 		this.setStartDate(startDate);
 		this.setDuration(duration);
 		this.setAdditionalCosts(additionalCosts);
-		this.setAppartmentId(appartmentId);
+		this.setApartment(appartment);
 	}
 
 	public TenancyContract() {
@@ -67,18 +73,18 @@ public class TenancyContract extends Contract {
 		this.additionalCosts = additionalCosts;
 	}
 
-	public int getAppartmentId() {
-		return appartmentId;
-	}
-
-	public void setAppartmentId(int appartmentId) {
-		this.appartmentId = appartmentId;
-	}
-
-	public static Criterion getUserRestriction() {
+	public static void addUserRestriction(Criteria baseCriteria) {
 		if (LoginService.User == null)
-			return null;
-		return null;
-		//Restrictions.eq("ESTATE_AGENT_ID", LoginService.User.getId())
+			return;
+		baseCriteria.createCriteria("apartment")
+					.add(Restrictions.eq("manager", LoginService.User));
+	}
+
+	public Apartment getApartment() {
+		return apartment;
+	}
+
+	public void setApartment(Apartment apartment) {
+		this.apartment = apartment;
 	}
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import org.dis.sheet02.dal.ContextBuilder;
 import org.dis.sheet02.dal.RealEstateContext;
 import org.dis.sheet02.dal.dbcontext.EntitySet;
-import org.dis.sheet02.entities.Appartment;
+import org.dis.sheet02.entities.Apartment;
 import org.dis.sheet02.entities.Estate;
 import org.dis.sheet02.entities.House;
 import org.dis.sheet02.ui.base.LambdaButton;
@@ -25,7 +25,7 @@ public class EstatesView extends HBox {
 	private RealEstateContext context;
 	private EntitySet<House> houses;
 	private Frame detailsFrame;
-	private EntitySet<Appartment> apartments;
+	private EntitySet<Apartment> apartments;
 	private HouseView houseView;
 	private ApartmentView appartmentView;
 	
@@ -72,7 +72,7 @@ public class EstatesView extends HBox {
 		newHouse.setSizeRequest(120, 0);
 		
 		Button newAppartment = new LambdaButton("New Apartment", 
-				() -> displayEstate(new Appartment()));
+				() -> displayEstate(new Apartment()));
 		newAppartment.setSizeRequest(120, 0);
 		
 		HButtonBox newEstateButtons = new HButtonBox();
@@ -100,8 +100,8 @@ public class EstatesView extends HBox {
 			setView(houseView);
 			detailsFrame.setLabel("House");
 		}
-		else if (estate instanceof Appartment) {
-			appartmentView.setEntity((Appartment)estate);
+		else if (estate instanceof Apartment) {
+			appartmentView.setEntity((Apartment)estate);
 			setView(appartmentView);
 			detailsFrame.setLabel("Apartment");
 		}

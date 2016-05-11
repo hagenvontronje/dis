@@ -124,7 +124,7 @@ public abstract class BaseContractView<TEntity extends Contract> extends HBox {
 			if (checkInput()) {
 				ensureContextIsCreated();
 				person = context.getPersons().save(person);
-				entity.setPersonId(person.getId());
+				entity.setPerson(person);
 				saveEntity(entity, context);
 				onRecordModififed();
 			}
@@ -213,10 +213,10 @@ public abstract class BaseContractView<TEntity extends Contract> extends HBox {
 	private void loadPerson(TEntity entity) {
 		try {
 			ensureContextIsCreated();
-			if (entity.getPersonId() == 0)
+			if (entity.getPerson() == null || entity.getPerson().getId() == 0)
 				person = new Person();
 			else
-				person = context.getPersons().get(entity.getPersonId());
+				person = context.getPersons().get(entity.getPerson());
 			entryPersonFirstName.setText(Util.NullToValue(person.getFirstName()));
 			entryPersonLastName.setText(Util.NullToValue(person.getLastName()));
 			entryPersonAddress.setText(Util.NullToValue(person.getAddress()));

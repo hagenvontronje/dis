@@ -1,20 +1,21 @@
 package org.dis.sheet02.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.dis.sheet02.services.LoginService;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Example;
-import org.hibernate.criterion.Restrictions;
-
 @Entity
-@Table(name = "APPARTMENT")
+@Table(name = "APARTMENT")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Appartment extends Estate {
+public class Apartment extends Estate {
 
 	@Column(name = "FLOOR", nullable=false)
 	private int floor;
@@ -31,10 +32,13 @@ public class Appartment extends Estate {
 	@Column(name = "BUILT_IN_KITCHEN", nullable=false)
 	private int builtInKitchen;
 
-
-	public Appartment() {}
+	@OneToMany(mappedBy="apartment", orphanRemoval=true, 
+			fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	private List<TenancyContract> tenancies = new ArrayList<>();
 	
-	public Appartment(	String city, 
+	public Apartment() {}
+	
+	public Apartment(	String city, 
     					String postalCode, 
     					String street, 
     					String streetNumber, 

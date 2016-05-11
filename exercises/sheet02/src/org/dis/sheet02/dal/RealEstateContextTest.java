@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.dis.sheet02.dal.dbcontext.EntitySet;
-import org.dis.sheet02.entities.Appartment;
+import org.dis.sheet02.entities.Apartment;
 import org.dis.sheet02.entities.EstateAgent;
 import org.dis.sheet02.entities.House;
 import org.dis.sheet02.entities.Person;
@@ -129,7 +129,7 @@ public class RealEstateContextTest {
 	public void testGetAppartments() {
 		try {
 			RealEstateContext ctx = CreateContext();
-			EntitySet<Appartment> appartments = ctx.getAppartments();
+			EntitySet<Apartment> appartments = ctx.getAppartments();
 			EntitySet<EstateAgent> agents = ctx.getAgents();
 
 			// create manager for testing:
@@ -137,7 +137,7 @@ public class RealEstateContextTest {
 			agent = agents.save(agent);
 			
 			// save:
-			Appartment a = new Appartment("Hamburg", 
+			Apartment a = new Apartment("Hamburg", 
             					"1245", 
             					"b street", 
             					"34b", 
@@ -151,14 +151,14 @@ public class RealEstateContextTest {
 			a = appartments.save(a);
 			
 			// get all:
-			List<Appartment> all = appartments.getAll();
+			List<Apartment> all = appartments.getAll();
 			int count = all.size();
 			assertTrue("GetAll did not find new entity.", !all.isEmpty());
 			
 			// update:
 			a.hasBalcony(true);
 			a = appartments.save(a);
-			Appartment a2 = appartments.get(a.getId());
+			Apartment a2 = appartments.get(a.getId());
 			assertTrue("Updated column incorrect.", a.hasBalcony() == a2.hasBalcony());
 			
 			// delete:
@@ -239,8 +239,8 @@ public class RealEstateContextTest {
 			PurchaseContract c = new PurchaseContract(	1, 
 														new Date(),
 														"Hamburg",
-														person.getId(),
-														house.getId(),
+														person,
+														house,
 														5,
 														0.03);
 			c = contracts.save(c);

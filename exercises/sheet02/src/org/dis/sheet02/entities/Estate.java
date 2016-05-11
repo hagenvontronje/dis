@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.dis.sheet02.services.LoginService;
-import org.hibernate.criterion.Criterion;
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
 @Entity
@@ -131,10 +131,10 @@ public abstract class Estate {
 		this.manager = manager;
 	}
 	
-	public static Criterion getUserRestriction() {
+	public static void addUserRestriction(Criteria baseCriteria) {
 		if (LoginService.User == null || LoginService.User.getId() == 0)
-			return null;
-		return Restrictions.eq("manager", LoginService.User);
+			return;
+		baseCriteria.add(Restrictions.eq("manager", LoginService.User));
 	}
 
 }

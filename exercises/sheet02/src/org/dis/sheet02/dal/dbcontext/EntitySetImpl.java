@@ -11,7 +11,7 @@ import org.dis.sheet02.dal.QueryPrinter;
 import org.dis.sheet02.dal.factories.EntityFactory;
 import org.dis.sheet02.dal.factories.EntityInfo;
 import org.dis.sheet02.dal.factories.QueryFactory;
-import org.dis.sheet02.entities.Appartment;
+import org.dis.sheet02.entities.Apartment;
 import org.dis.sheet02.entities.House;
 import org.dis.sheet02.entities.PurchaseContract;
 import org.dis.sheet02.entities.TenancyContract;
@@ -91,7 +91,7 @@ class EntitySetImpl<TEntity>
 		String selectStatement = queryFactory.buildSelectAllStatement();
 		if (LoginService.User != null && LoginService.User.getId() >= 0) {
 			if (queryFactory.getEntityType() == House.class 
-					||queryFactory.getEntityType() == Appartment.class) {
+					||queryFactory.getEntityType() == Apartment.class) {
 				selectStatement += " WHERE ESTATE_AGENT_ID = " + LoginService.User.getId(); 
 			}
 			else if (queryFactory.getEntityType() == PurchaseContract.class) {

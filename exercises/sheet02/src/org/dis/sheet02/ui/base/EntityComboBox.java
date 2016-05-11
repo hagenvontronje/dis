@@ -68,21 +68,21 @@ public class EntityComboBox<TElement extends Estate> extends VBox {
 		}
 	}
 	
-	public void selectValue(int entityId) {
+	public void selectValue(TElement value) {
+		if (value == null) {
+			view.setActive(-1);
+			return;
+		}
 		TreeIter row = model.getIterFirst();
-		boolean wasFound = false;
 		if (row != null) {
 			do {
 				TElement element = model.getValue(row, objectColumn);
-				if (element.getId() == entityId) {
+				if (value.equals(element)) {
 					view.setActiveIter(row);
-					wasFound = true;
-					break;
+					return;
 				}
 			} while (row.iterNext());
 		}
-		if (!wasFound) {
-			view.setActive(-1);
-		}
+		view.setActive(-1);
 	}
 }

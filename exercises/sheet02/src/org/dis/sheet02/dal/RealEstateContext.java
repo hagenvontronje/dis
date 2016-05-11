@@ -3,7 +3,7 @@ package org.dis.sheet02.dal;
 import java.sql.SQLException;
 
 import org.dis.sheet02.dal.dbcontext.EntitySet;
-import org.dis.sheet02.entities.Appartment;
+import org.dis.sheet02.entities.Apartment;
 import org.dis.sheet02.entities.EstateAgent;
 import org.dis.sheet02.entities.House;
 import org.dis.sheet02.entities.Person;
@@ -16,7 +16,7 @@ public interface RealEstateContext {
 
 	EntitySet<House> getHouses();
 
-	EntitySet<Appartment> getAppartments();
+	EntitySet<Apartment> getAppartments();
 
 	EntitySet<EstateAgent> getAgents();
 

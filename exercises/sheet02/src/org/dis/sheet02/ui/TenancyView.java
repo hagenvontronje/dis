@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.dis.sheet02.Util;
 import org.dis.sheet02.dal.RealEstateContext;
-import org.dis.sheet02.entities.Appartment;
+import org.dis.sheet02.entities.Apartment;
 import org.dis.sheet02.entities.TenancyContract;
 import org.dis.sheet02.ui.base.AlignedLabel;
 import org.dis.sheet02.ui.base.EntityComboBox;
@@ -26,13 +26,13 @@ public class TenancyView extends BaseContractView<TenancyContract> {
 	private Entry entryStartDate;
 	private SpinButton entryDuration;
 	private SpinButton entryAddCosts;
-	private EntityComboBox<Appartment> entryApartment;
+	private EntityComboBox<Apartment> entryApartment;
 	
 	@Override
 	protected void addDetailsControls(VBox detailsbox, RealEstateContext ctx) {
 		entryApartment = new EntityComboBox<>(
 				(a) -> a.getDisplayName(), 
-				(a) -> entity.setAppartmentId(a.getId()));
+				(a) -> entity.setApartment(a));
 		try {
 			entryApartment.setData(ctx.getAppartments().getAll());
 		} catch (SQLException e) {
@@ -80,13 +80,13 @@ public class TenancyView extends BaseContractView<TenancyContract> {
 		entryStartDate.setText(DATE_FORMAT.format(Util.NullToValue(entity.getStartDate())));
 		entryDuration.setValue(Util.NullToValue(entity.getDuration()));
 		entryAddCosts.setValue(Util.NullToValue(entity.getAdditionalCosts()));
-		entryApartment.selectValue(Util.NullToValue(entity.getAppartmentId()));
+		entryApartment.selectValue(entity.getApartment());
 	}
 
 	@Override
 	protected List<String> checkInputCustom() {
 		final List<String> errors = new ArrayList<>();
-		if (entity.getAppartmentId() == 0)
+		if (entity.getApartment().getId() == 0)
 			errors.add("No apartment selected");
 		try {
 			DATE_FORMAT.parse(entryStartDate.getText());

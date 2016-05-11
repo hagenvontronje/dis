@@ -7,11 +7,10 @@ import java.util.List;
 
 import org.dis.sheet02.dal.DB2ConnectionManager;
 import org.dis.sheet02.entities.Person;
-import org.junit.Test;
 
 public class EntitySetTest {
 
-	@Test
+//	@Test
 	public void testSelectAll() {
 
 		try {
@@ -32,7 +31,7 @@ public class EntitySetTest {
 		}
 	}
 
-	@Test
+//	@Test
 	public void testSaveEntity() {
 		try {
 			EntitySet<Person> persons = new EntitySetImpl<Person>(
@@ -48,7 +47,7 @@ public class EntitySetTest {
 		}
 	}
 
-	@Test
+//	@Test
 	public void testGet() {
 		try {
 			EntitySet<Person> persons = new EntitySetImpl<Person>(

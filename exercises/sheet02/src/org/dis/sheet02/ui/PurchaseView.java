@@ -27,7 +27,7 @@ public class PurchaseView extends BaseContractView<PurchaseContract> {
 	protected void addDetailsControls(VBox detailsbox, RealEstateContext ctx) {
 		entryHouse = new EntityComboBox<>(
 				(a) -> a.getDisplayName(), 
-				(a) -> entity.setHouseId(a.getId()));
+				(a) -> entity.setHouse(a));
 		try {
 			entryHouse.setData(ctx.getHouses().getAll());
 		} catch (SQLException e) {
@@ -65,7 +65,7 @@ public class PurchaseView extends BaseContractView<PurchaseContract> {
 	protected void setEntityCustom(PurchaseContract entity) {
 		entryInstallments.setValue(Util.NullToValue(entity.getNumberOfInstallments()));
 		entryRate.setValue(Util.NullToValue(entity.getInterestRate()));
-		entryHouse.selectValue(Util.NullToValue(entity.getHouseId()));
+		entryHouse.selectValue(entity.getHouse());
 	}
 
 	@Override

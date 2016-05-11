@@ -3,13 +3,12 @@ package org.dis.sheet02.dal.dbcontext;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 public class HibernateEntitySet<TEntity> implements EntitySet<TEntity> {
@@ -17,12 +16,12 @@ public class HibernateEntitySet<TEntity> implements EntitySet<TEntity> {
 	private final SessionFactory sessionFactory;
 	private final Class<TEntity> entityType;
 	private final Function<TEntity, Serializable> idSelector;
-	private final Supplier<Criterion> userRestrictionSupplier;
+	private final Consumer<Criteria> userRestrictionSupplier;
 	
 	public HibernateEntitySet(	SessionFactory factory,
                     			Class<TEntity> entityType,
                     			Function<TEntity, Serializable> idSelector,
-                    			Supplier<Criterion> userRestrictionSupplier) {
+                    			Consumer<Criteria> userRestrictionSupplier) {
 		this.sessionFactory = factory;
 		this.entityType = entityType;
 		this.idSelector = idSelector;
@@ -51,9 +50,7 @@ public class HibernateEntitySet<TEntity> implements EntitySet<TEntity> {
 			session.beginTransaction();
 			Criteria critetia = session
 					.createCriteria(getEntityType());
-			Criterion userRestriction = userRestrictionSupplier.get();
-			if (userRestriction != null)
-				critetia = critetia.add(userRestriction);
+			userRestrictionSupplier.accept(critetia);
 			@SuppressWarnings("unchecked")
 			List<TEntity> list = critetia.list();
 			session.getTransaction().commit();
