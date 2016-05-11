@@ -3,9 +3,11 @@ package org.dis.sheet02.dal.dbcontext;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.hibernate.QueryException;
+
 public interface EntitySet<TEntity> {
 
-	void save(TEntity entity) throws SQLException;
+	TEntity save(TEntity entity) throws SQLException;
 
 	/**
 	 * Retrieves all entities from the database.

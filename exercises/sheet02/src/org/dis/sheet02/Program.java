@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.dis.sheet02.dal.ContextBuilder;
 import org.dis.sheet02.dal.QueryPrinter;
 import org.dis.sheet02.dal.RealEstateContext;
 import org.dis.sheet02.ui.LoginDialog;
@@ -23,7 +24,7 @@ public class Program {
 		LoginDialog login = new LoginDialog();
 		login.showAll();
         Gtk.main();
-        
+        System.exit(0);
 //		try {
 //			DB2ConnectionManager manager = DB2ConnectionManager.getInstance();
 //			Connection connection = manager.getConnection();
@@ -38,7 +39,7 @@ public class Program {
 	}
 	
 	private static void createSchema(Connection connection) throws SQLException {
-		RealEstateContext context = new RealEstateContext();
+		RealEstateContext context = ContextBuilder.build();
 		context.CreateSchema();
 	}
 

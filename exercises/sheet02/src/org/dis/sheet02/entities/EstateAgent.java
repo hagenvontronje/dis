@@ -1,10 +1,16 @@
 package org.dis.sheet02.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -28,6 +34,10 @@ public class EstateAgent {
 	@Column(name = "ADDRESS", nullable=false)
 	private String address;
 
+	@OneToMany(mappedBy="manager", orphanRemoval=true, 
+			fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	private List<Estate> estates = new ArrayList<>();
+	
 	public EstateAgent() { }
 	public EstateAgent(	String name, 
             			String address, 

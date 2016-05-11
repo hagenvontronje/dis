@@ -49,9 +49,9 @@ public class PurchaseView extends BaseContractView<PurchaseContract> {
 	}
 
 	@Override
-	protected void saveEntity(PurchaseContract entity, RealEstateContext ctx)
+	protected PurchaseContract saveEntity(PurchaseContract entity, RealEstateContext ctx)
 			throws SQLException {
-		ctx.getPurchaseContracts().save(entity);
+		return ctx.getPurchaseContracts().save(entity);
 		
 	}
 

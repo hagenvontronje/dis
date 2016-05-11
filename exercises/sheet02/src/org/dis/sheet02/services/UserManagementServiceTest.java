@@ -49,7 +49,7 @@ public class UserManagementServiceTest {
 
 		try {
 			EstateAgent agent = new EstateAgent("test", "test address", "test", "testpw");
-			service.saveAgent(agent);
+			agent = service.saveAgent(agent);
 			service.delete(agent);
 			service.getAgents();
 		} catch (Exception e) {

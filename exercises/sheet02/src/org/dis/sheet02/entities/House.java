@@ -6,6 +6,10 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import org.dis.sheet02.services.LoginService;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Example;
+
 @Entity
 @Table(name = "HOUSE")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -31,9 +35,9 @@ public class House extends Estate {
 					int floors,
 					double price,
 					boolean garden,
-					int managerId)
+					EstateAgent manager)
 	{
-		super(city, postalCode, street, streetNumber, squareArea, managerId);
+		super(city, postalCode, street, streetNumber, squareArea, manager);
 		this.floors = floors;
 		this.price = price;
 		hasGarden(garden);

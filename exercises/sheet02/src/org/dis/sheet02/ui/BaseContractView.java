@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import org.dis.sheet02.Util;
+import org.dis.sheet02.dal.ContextBuilder;
 import org.dis.sheet02.dal.RealEstateContext;
 import org.dis.sheet02.entities.Contract;
 import org.dis.sheet02.entities.Person;
@@ -55,7 +56,7 @@ public abstract class BaseContractView<TEntity extends Contract> extends HBox {
 	
 	private void ensureContextIsCreated() {
 		if (context == null) {
-			context = new RealEstateContext();
+			context = ContextBuilder.build();
 		}
 	}
 
@@ -122,7 +123,7 @@ public abstract class BaseContractView<TEntity extends Contract> extends HBox {
 			saveInputToCurrent();
 			if (checkInput()) {
 				ensureContextIsCreated();
-				context.getPersons().save(person);
+				person = context.getPersons().save(person);
 				entity.setPersonId(person.getId());
 				saveEntity(entity, context);
 				onRecordModififed();
@@ -142,7 +143,7 @@ public abstract class BaseContractView<TEntity extends Contract> extends HBox {
 		}
 	}
 	
-	protected abstract void saveEntity(TEntity entity, RealEstateContext ctx) 
+	protected abstract TEntity saveEntity(TEntity entity, RealEstateContext ctx) 
 			throws SQLException;
 	
 	private void saveInputToCurrent() {

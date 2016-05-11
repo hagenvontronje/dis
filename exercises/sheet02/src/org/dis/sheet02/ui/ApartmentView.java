@@ -44,9 +44,9 @@ public class ApartmentView extends BaseEstateDetailsView<Appartment> {
 	}
 
 	@Override
-	protected void saveEntity(Appartment entity, RealEstateContext ctx)
+	protected Appartment saveEntity(Appartment entity, RealEstateContext ctx)
 			throws SQLException {
-		ctx.getAppartments().save(entity);
+		return ctx.getAppartments().save(entity);
 	}
 
 	@Override

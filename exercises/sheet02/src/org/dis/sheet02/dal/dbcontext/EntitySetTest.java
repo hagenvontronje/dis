@@ -39,7 +39,7 @@ public class EntitySetTest {
 					DB2ConnectionManager.getInstance().getConnection(),
 					Person.class);
 			Person person = new Person("Hagen", "von Tronje", null);
-			persons.save(person);
+			person = persons.save(person);
 			assertTrue(person.getId() > 0);
 			persons.delete(person);
 		} catch (Exception e) {
@@ -55,7 +55,7 @@ public class EntitySetTest {
 					DB2ConnectionManager.getInstance().getConnection(),
 					Person.class);
 			Person person = new Person("Hagen", "von Tronje", null);
-			persons.save(person);
+			person = persons.save(person);
 			assertTrue(person.getId() > 0);
 			Person retrievedPerson = persons.get(person.getId());
 			assertTrue(person.getId() == retrievedPerson.getId());

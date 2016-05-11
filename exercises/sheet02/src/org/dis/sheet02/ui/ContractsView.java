@@ -3,6 +3,7 @@ package org.dis.sheet02.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dis.sheet02.dal.ContextBuilder;
 import org.dis.sheet02.dal.RealEstateContext;
 import org.dis.sheet02.dal.dbcontext.EntitySet;
 import org.dis.sheet02.entities.Contract;
@@ -40,7 +41,7 @@ public class ContractsView extends HBox {
 	
 	private void ensureContextIsCreated() {
 		if (context == null) {
-			context = new RealEstateContext();
+			context = ContextBuilder.build();
 			tenancies = context.getTenancyContracts();
 			purchases = context.getPurchaseContracts();
 		}

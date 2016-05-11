@@ -58,9 +58,9 @@ public class TenancyView extends BaseContractView<TenancyContract> {
 	}
 
 	@Override
-	protected void saveEntity(TenancyContract entity, RealEstateContext ctx)
+	protected TenancyContract saveEntity(TenancyContract entity, RealEstateContext ctx)
 			throws SQLException {
-		ctx.getTenancyContracts().save(entity);
+		return ctx.getTenancyContracts().save(entity);
 		
 	}
 

@@ -73,6 +73,10 @@ public class EntityInfo<TEntity> {
 			if (field.getAnnotation(Column.class) != null)
 				fields.add(field);
 	}
+	
+	public String getIdColumnName() {
+		return getIdColumn().getColumnName();
+	}
 
 	protected ColumnDef getIdColumn() {
 		ColumnDef[] columnDefs = getColumns();

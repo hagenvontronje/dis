@@ -3,6 +3,7 @@ package org.dis.sheet02.ui;
 import java.util.List;
 
 import org.dis.sheet02.Util;
+import org.dis.sheet02.dal.ContextBuilder;
 import org.dis.sheet02.dal.RealEstateContext;
 import org.dis.sheet02.dal.dbcontext.EntitySet;
 import org.dis.sheet02.entities.EstateAgent;
@@ -44,7 +45,7 @@ public class UserManagementView extends HBox {
 	
 	private void ensureContextIsCreated() {
 		if (context == null) {
-			context = new RealEstateContext();
+			context = ContextBuilder.build();
 			agents = context.getAgents();
 		}
 	}
@@ -123,7 +124,7 @@ public class UserManagementView extends HBox {
 			saveInputToAgent();
 			if (checkInput()) {
 				ensureContextIsCreated();
-				agents.save(currentAgent);
+				currentAgent = agents.save(currentAgent);
 				loadAgents();
 			}
 		} catch (Exception e) {

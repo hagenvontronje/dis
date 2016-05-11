@@ -8,6 +8,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import org.dis.sheet02.services.LoginService;
+import org.hibernate.criterion.Criterion;
+
 @Entity
 @Table(name = "PURCHASE_CONTRACT")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -60,4 +63,11 @@ public class PurchaseContract extends Contract {
 		this.houseId = houseId;
 	}
 
+
+	public static Criterion getUserRestriction() {
+		if (LoginService.User == null)
+			return null;
+		return null;
+		//Restrictions.eq("ESTATE_AGENT_ID", LoginService.User.getId())
+	}
 }

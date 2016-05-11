@@ -1,5 +1,6 @@
 package org.dis.sheet02.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,13 +8,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.dis.sheet02.services.LoginService;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 
 @Entity
 @Table(name = "ESTATE")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Estate {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
@@ -33,10 +40,12 @@ public abstract class Estate {
 
 	@Column(name = "SQUARE_AREA", nullable=false)
 	private double squareArea;
-
-	@Column(name = "ESTATE_AGENT_ID")
-//	@ManyToOne(targetEntity=EstateAgent.class, optional=false)
-	private int managerId;
+	
+	
+	@ManyToOne(targetEntity=EstateAgent.class, optional=false, 
+			cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+	@JoinColumn(name="MANAGER_ID", nullable=false)
+	private EstateAgent manager;
 
 	public Estate() {}
 	
@@ -45,14 +54,14 @@ public abstract class Estate {
 					String street, 
 					String streetNumber, 
 					double squareArea, 
-					int managerId)
+					EstateAgent manager)
 	{
 		this.city = city;
 		this.postalCode = postalCode;
 		this.street = street;
 		this.streetNumber = streetNumber;
 		this.squareArea = squareArea;
-		this.managerId = managerId;
+		this.manager = manager;
 	}
 	
 	public int getId() {
@@ -103,14 +112,6 @@ public abstract class Estate {
 		this.squareArea = squareArea;
 	}
 
-	public int getManagerId() {
-		return managerId;
-	}
-
-	public void setManagerId(int estateAgentId) {
-		this.managerId = estateAgentId;
-	}
-
 	public String getDisplayName() {
 		return String.format("%s, %s (%s)",
 				String.format("%s %s", 
@@ -120,6 +121,20 @@ public abstract class Estate {
 						getStreet(),
 						getStreetNumber()).trim(),
 				this instanceof House ? "H" : "A");
+	}
+
+	public EstateAgent getManager() {
+		return manager;
+	}
+
+	public void setManager(EstateAgent manager) {
+		this.manager = manager;
+	}
+	
+	public static Criterion getUserRestriction() {
+		if (LoginService.User == null || LoginService.User.getId() == 0)
+			return null;
+		return Restrictions.eq("manager", LoginService.User);
 	}
 
 }

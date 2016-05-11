@@ -19,7 +19,7 @@ import org.dis.sheet02.entities.PurchaseContract;
 import org.junit.Test;
 
 /**
- * Test for {@link RealEstateContext}.
+ * Test for {@link RealEstateContextImpl}.
  * 
  * @author Burkhart, Julian
  * @author Elshinawi, Ahmed
@@ -30,21 +30,25 @@ public class RealEstateContextTest {
 	@Test
 	public void testRealEstateContext() {
 		try {
-			RealEstateContext ctx = new RealEstateContext();
+			RealEstateContext ctx = CreateContext();
 			ctx.Close();
 		} catch (SQLException e) {
 			fail(e.getMessage());
 		}
 	}
 
+	private RealEstateContext CreateContext() {
+		return ContextBuilder.build();
+	}
+
 	@Test
 	public void testGetPersons() {
 		try {
-			RealEstateContext ctx = new RealEstateContext();
+			RealEstateContext ctx = CreateContext();
 			EntitySet<Person> persons = ctx.getPersons();
 			// save:
 			Person p = new Person("Carl", "Nielson", "Nämmerlynd");
-			persons.save(p);
+			p = persons.save(p);
 			assertNotEquals("ID was not set on after save.", p.getId(), 0);
 			Person p2 = persons.get(p.getId());
 			assertEquals("Wrong person retrieved.", p2.getId(), p.getId());
@@ -61,7 +65,7 @@ public class RealEstateContextTest {
 			
 			// update:
 			p.setLastName("Weber");
-			persons.save(p);
+			p = persons.save(p);
 			p2 = persons.get(p.getId());
 			assertEquals("Updated column incorrect.", p.getLastName(), p2.getLastName());
 			
@@ -78,13 +82,13 @@ public class RealEstateContextTest {
 	@Test
 	public void testGetHouses() {
 		try {
-			RealEstateContext ctx = new RealEstateContext();
+			RealEstateContext ctx = CreateContext();
 			EntitySet<House> houses = ctx.getHouses();
 			EntitySet<EstateAgent> agents = ctx.getAgents();
 
 			// create manager for testing:
 			EstateAgent agent = new EstateAgent("a", "b", "c", "d");
-			agents.save(agent);
+			agent = agents.save(agent);
 			
 			// save:
 			House h = new House("Hamburg", 
@@ -95,8 +99,8 @@ public class RealEstateContextTest {
             					2, 
             					350000.42, 
             					true, 
-            					agent.getId());
-			houses.save(h);
+            					agent);
+			h = houses.save(h);
 			
 			// get all:
 			List<House> all = houses.getAll();
@@ -105,7 +109,7 @@ public class RealEstateContextTest {
 			
 			// update:
 			h.setPrice(1000000.01);
-			houses.save(h);
+			h = houses.save(h);
 			House h2 = houses.get(h.getId());
 			assertTrue("Updated column incorrect.", h.getPrice() == h2.getPrice());
 			
@@ -124,13 +128,13 @@ public class RealEstateContextTest {
 	@Test
 	public void testGetAppartments() {
 		try {
-			RealEstateContext ctx = new RealEstateContext();
+			RealEstateContext ctx = CreateContext();
 			EntitySet<Appartment> appartments = ctx.getAppartments();
 			EntitySet<EstateAgent> agents = ctx.getAgents();
 
 			// create manager for testing:
 			EstateAgent agent = new EstateAgent("a", "b", "c", "d");
-			agents.save(agent);
+			agent = agents.save(agent);
 			
 			// save:
 			Appartment a = new Appartment("Hamburg", 
@@ -143,8 +147,8 @@ public class RealEstateContextTest {
             					4,
             					false,
             					true, 
-            					agent.getId());
-			appartments.save(a);
+            					agent);
+			a = appartments.save(a);
 			
 			// get all:
 			List<Appartment> all = appartments.getAll();
@@ -153,7 +157,7 @@ public class RealEstateContextTest {
 			
 			// update:
 			a.hasBalcony(true);
-			appartments.save(a);
+			a = appartments.save(a);
 			Appartment a2 = appartments.get(a.getId());
 			assertTrue("Updated column incorrect.", a.hasBalcony() == a2.hasBalcony());
 			
@@ -172,12 +176,12 @@ public class RealEstateContextTest {
 	@Test
 	public void testGetAgents() {
 		try {
-			RealEstateContext ctx = new RealEstateContext();
+			RealEstateContext ctx = CreateContext();
 			EntitySet<EstateAgent> agents = ctx.getAgents();
 			
 			// save:
 			EstateAgent a = new EstateAgent("a", "b", "c", "d");
-			agents.save(a);
+			a = agents.save(a);
 			
 			// get all:
 			List<EstateAgent> all = agents.getAll();
@@ -186,7 +190,7 @@ public class RealEstateContextTest {
 			
 			// update:
 			a.setPassword("qwertz");
-			agents.save(a);
+			a = agents.save(a);
 			EstateAgent a2 = agents.get(a.getId());
 			assertTrue("Updated column incorrect.", a2.getPassword().equals(a.getPassword()));
 			
@@ -209,7 +213,7 @@ public class RealEstateContextTest {
 	@Test
 	public void testGetPurchaseContracts() {
 		try {
-			RealEstateContext ctx = new RealEstateContext();
+			RealEstateContext ctx = CreateContext();
 			EntitySet<PurchaseContract> contracts = ctx.getPurchaseContracts();
 			EntitySet<House> houses = ctx.getHouses();
 			EntitySet<EstateAgent> agents = ctx.getAgents();
@@ -217,7 +221,7 @@ public class RealEstateContextTest {
 
 			// create dependencies for testing:
 			EstateAgent agent = new EstateAgent("a", "b", "c", "d");
-			agents.save(agent);
+			agent = agents.save(agent);
 			House house = new House("Hamburg", 
 					"1245", 
 					"b street", 
@@ -226,10 +230,10 @@ public class RealEstateContextTest {
 					2, 
 					350000.42, 
 					true, 
-					agent.getId());
-			houses.save(house);
+					agent);
+			house = houses.save(house);
 			Person person = new Person("Carl", "Nielson", "Nämmerlynd");
-			persons.save(person);
+			person = persons.save(person);
 			
 			// save:
 			PurchaseContract c = new PurchaseContract(	1, 
@@ -239,7 +243,7 @@ public class RealEstateContextTest {
 														house.getId(),
 														5,
 														0.03);
-			contracts.save(c);
+			c = contracts.save(c);
 			
 			// get all:
 			List<PurchaseContract> all = contracts.getAll();
@@ -248,7 +252,7 @@ public class RealEstateContextTest {
 			
 			// update:
 			c.setInterestRate(0.0255);
-			contracts.save(c);
+			c = contracts.save(c);
 			PurchaseContract c2 = contracts.get(c.getId());
 			assertTrue("Updated column incorrect.", c.getInterestRate() == c2.getInterestRate());
 			
@@ -266,15 +270,5 @@ public class RealEstateContextTest {
 		}
 	}
 
-	@Test
-	public void testCreateSchema() {
-		try {
-			RealEstateContext ctx = new RealEstateContext();
-			ctx.CreateSchema();
-			ctx.Close();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
 
 }

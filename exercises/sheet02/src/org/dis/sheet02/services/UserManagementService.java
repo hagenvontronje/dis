@@ -65,12 +65,14 @@ public class UserManagementService extends BaseService {
 	 *             If an error occurs during the operation.
 	 * @throws ServiceLockedException
 	 *             If the service is locked.
+	 * @return An updated copy of the agent.
 	 */
-	public void saveAgent(EstateAgent agent)
+	public EstateAgent saveAgent(EstateAgent agent)
 			throws SQLException, ServiceLockedException {
 		throwIfLocked();
 		ensureContextIsCreated();
-		dbcontext.getAgents().save(agent);
+		agent = dbcontext.getAgents().save(agent);
+		return agent;
 	}
 
 	/**

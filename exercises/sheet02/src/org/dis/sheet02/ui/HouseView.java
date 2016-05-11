@@ -45,8 +45,8 @@ public class HouseView extends BaseEstateDetailsView<House> {
 	}
 
 	@Override
-	protected void saveEntity(House entity, RealEstateContext ctx) throws SQLException {
-		ctx.getHouses().save(entity);
+	protected House saveEntity(House entity, RealEstateContext ctx) throws SQLException {
+		return ctx.getHouses().save(entity);
 	}
 
 	@Override

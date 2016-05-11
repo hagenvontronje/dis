@@ -58,7 +58,7 @@ class EntitySetImpl<TEntity>
 	 * @see org.dis.sheet02.dal.EntitySet#saveEntity(TEntity)
 	 */
 	@Override
-	public void save(TEntity entity) throws SQLException {
+	public TEntity save(TEntity entity) throws SQLException {
 		String query;
 		boolean isNew = entityFactory.isNewEntity(entity);
 		query = isNew ? queryFactory.buildInsertStatement(entity)
@@ -75,6 +75,7 @@ class EntitySetImpl<TEntity>
 					entityFactory.setId(entity, keys.getInt(1));
 				}
 			}
+			return entity;
 		} catch (Exception e) {
 			throw new SQLException(e);
 		}

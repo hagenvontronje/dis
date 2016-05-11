@@ -1,6 +1,7 @@
 package org.dis.sheet02.dal;
 
-import org.dis.sheet02.dal.dbcontext.DbContext;
+import java.sql.SQLException;
+
 import org.dis.sheet02.dal.dbcontext.EntitySet;
 import org.dis.sheet02.entities.Appartment;
 import org.dis.sheet02.entities.EstateAgent;
@@ -9,45 +10,22 @@ import org.dis.sheet02.entities.Person;
 import org.dis.sheet02.entities.PurchaseContract;
 import org.dis.sheet02.entities.TenancyContract;
 
-/**
- * Database context for real estate database.
- * 
- * @author Burkhart, Julian
- * @author Elshinawi, Ahmed
- *
- */
-public class RealEstateContext extends DbContext {
+public interface RealEstateContext {
 
-	public RealEstateContext() {
-		super(	Person.class, 
-				House.class, 
-				Appartment.class,
-				EstateAgent.class,
-				TenancyContract.class,
-				PurchaseContract.class);
-	}
+	EntitySet<Person> getPersons();
 
-	public EntitySet<Person> getPersons() {
-		return getEntitySet(Person.class);
-	}
+	EntitySet<House> getHouses();
 
-	public EntitySet<House> getHouses() {
-		return getEntitySet(House.class);
-	}
+	EntitySet<Appartment> getAppartments();
 
-	public EntitySet<Appartment> getAppartments() {
-		return getEntitySet(Appartment.class);
-	}
+	EntitySet<EstateAgent> getAgents();
 
-	public EntitySet<EstateAgent> getAgents() {
-		return getEntitySet(EstateAgent.class);
-	}
+	EntitySet<TenancyContract> getTenancyContracts();
 
-	public EntitySet<TenancyContract> getTenancyContracts() {
-		return getEntitySet(TenancyContract.class);
-	}
+	EntitySet<PurchaseContract> getPurchaseContracts();
 
-	public EntitySet<PurchaseContract> getPurchaseContracts() {
-		return getEntitySet(PurchaseContract.class);
-	}
+	void CreateSchema() throws SQLException;
+
+	void Close() throws SQLException;
+
 }

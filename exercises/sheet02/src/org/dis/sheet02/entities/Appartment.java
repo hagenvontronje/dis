@@ -6,6 +6,11 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import org.dis.sheet02.services.LoginService;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Restrictions;
+
 @Entity
 @Table(name = "APPARTMENT")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -30,18 +35,18 @@ public class Appartment extends Estate {
 	public Appartment() {}
 	
 	public Appartment(	String city, 
-					String postalCode, 
-					String street, 
-					String streetNumber, 
-					double squareArea,
-					int floor,
-					double rent,
-					int rooms,
-					boolean hasBalcony,
-					boolean hasBuildInKitchen,
-					int managerId)
+    					String postalCode, 
+    					String street, 
+    					String streetNumber, 
+    					double squareArea,
+    					int floor,
+    					double rent,
+    					int rooms,
+    					boolean hasBalcony,
+    					boolean hasBuildInKitchen,
+    					EstateAgent manager)
 	{
-		super(city, postalCode, street, streetNumber, squareArea, managerId);
+		super(city, postalCode, street, streetNumber, squareArea, manager);
 		this.floor = floor;
 		this.rent = rent;
 		this.rooms = rooms;

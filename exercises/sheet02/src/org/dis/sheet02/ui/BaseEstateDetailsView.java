@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import org.dis.sheet02.Util;
+import org.dis.sheet02.dal.ContextBuilder;
 import org.dis.sheet02.dal.RealEstateContext;
 import org.dis.sheet02.entities.Estate;
 import org.dis.sheet02.services.LoginService;
@@ -49,7 +50,7 @@ public abstract class BaseEstateDetailsView<TEntity extends Estate> extends HBox
 	
 	private void ensureContextIsCreated() {
 		if (context == null) {
-			context = new RealEstateContext();
+			context = ContextBuilder.build();
 		}
 	}
 
@@ -94,6 +95,7 @@ public abstract class BaseEstateDetailsView<TEntity extends Estate> extends HBox
 
 	private void deleteCurrent() {
 		try {
+			ensureContextIsCreated();
 			if (entity != null && entity.getId() >= 0)
 				deleteEntity(entity, context);
 			setEntity(newEntitySupplier.get());
@@ -111,7 +113,7 @@ public abstract class BaseEstateDetailsView<TEntity extends Estate> extends HBox
 			saveInputToCurrent();
 			if (checkInput()) {
 				ensureContextIsCreated();
-				saveEntity(entity, context);
+				entity = saveEntity(entity, context);
 				onRecordModififed();
 			}
 		} catch (Exception e) {
@@ -129,16 +131,16 @@ public abstract class BaseEstateDetailsView<TEntity extends Estate> extends HBox
 		}
 	}
 	
-	protected abstract void saveEntity(TEntity entity, RealEstateContext ctx) 
+	protected abstract TEntity saveEntity(TEntity entity, RealEstateContext ctx) 
 			throws SQLException;
 	
 	private void saveInputToCurrent() {
-		entity.setManagerId(LoginService.User.getId());
+		entity.setManager(LoginService.User);
 		entity.setCity(entryCity.getText());
 		entity.setPostalCode(entryPostalCode.getText());
 		entity.setStreet(entryStreet.getText());
 		entity.setStreetNumber(entryStreetNumber.getText());
-		entity.setManagerId(LoginService.User.getId());
+		entity.setManager(LoginService.User);
 		entity.setSquareArea(entryArea.getValue());
 		saveInputToCurrentCustom(entity);
 	}
@@ -147,16 +149,6 @@ public abstract class BaseEstateDetailsView<TEntity extends Estate> extends HBox
 
 	private boolean checkInput() {
 		final List<String> errors = new ArrayList<>();
-//		try {
-//			Double.parseDouble(entryArea.getText());
-//		} catch (NumberFormatException e) {
-//			errors.add("Square area is not a number.");
-//		}
-//		try {
-//			Double.parseDouble(entryArea.getText());
-//		} catch (NumberFormatException e) {
-//			errors.add("Square area is not a number.");
-//		}
 		if (errors.isEmpty())
 			return true;
 		

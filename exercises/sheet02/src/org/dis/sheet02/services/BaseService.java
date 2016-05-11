@@ -1,5 +1,6 @@
 package org.dis.sheet02.services;
 
+import org.dis.sheet02.dal.ContextBuilder;
 import org.dis.sheet02.dal.RealEstateContext;
 
 public class BaseService {
@@ -16,7 +17,7 @@ public class BaseService {
 	 */
 	protected void ensureContextIsCreated() {
 		if (dbcontext == null)
-			dbcontext = new RealEstateContext();
+			dbcontext = ContextBuilder.build();
 	}
 
 }
